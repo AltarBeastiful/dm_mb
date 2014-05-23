@@ -1,0 +1,45 @@
+namespace SMA {
+	
+	component Agent{
+		requires context : IContext
+		requires actionable : IActionable
+		
+		part perception : Perceive {
+			bind context to context
+			bind memory to knowledge.memory
+		
+			//bind decide
+		}
+		
+		part decision : Decide {
+			bind memory to knowledge.memory
+			
+			//bind act 
+		}
+		
+		part act : Act {
+			bind env to actionable
+		}
+		
+		part knowledge : Knowledge
+
+		provides charge :  IWorkLoad	
+	}
+
+	component Perceive {
+		requires context : IContext
+		requires memory : IMemory
+	}
+	
+	component Decide {
+		requires memory : IMemory 
+	}
+	
+	component Act {
+		requires env : IActionable
+	}
+	
+	component Knowledge {
+		provides memory : IMemory
+	}
+}

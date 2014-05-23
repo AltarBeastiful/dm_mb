@@ -1,0 +1,8 @@
+namespace SMA {
+
+component Environnement{
+	provides context : IContext
+	provides actionable : IActionable
+}
+
+}

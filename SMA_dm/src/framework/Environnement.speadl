@@ -1,4 +1,4 @@
-namespace SMA {
+namespace framework {
 
 component Environnement{
 	provides context : IContext

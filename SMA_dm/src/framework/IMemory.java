@@ -1,4 +1,4 @@
-package SMA;
+package framework;
 
 public interface IMemory {
 	

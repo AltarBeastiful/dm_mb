@@ -1,7 +1,4 @@
-package SMA;
-
-
-
+package framework;
 
 public interface IContext {
 	
@@ -10,3 +7,4 @@ public interface IContext {
 	public TileStatus queryPosition(int x, int y);
 
 }
+

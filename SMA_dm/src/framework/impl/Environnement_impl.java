@@ -1,12 +1,12 @@
-package impl;
+package framework.impl;
 
 import java.awt.Point;
 import java.util.LinkedHashMap;
 
-import SMA.Agent;
-import SMA.Environnement;
-import SMA.IActionable;
-import SMA.IContext;
+import framework.Agent;
+import framework.Environnement;
+import framework.IActionable;
+import framework.IContext;
 
 public class Environnement_impl extends Environnement implements IContext, IActionable {
 

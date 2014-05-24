@@ -1,11 +1,11 @@
-package impl;
+package framework.impl;
 
-import SMA.Act;
-import SMA.Agent;
-import SMA.Decide;
-import SMA.IWorkLoad;
-import SMA.Knowledge;
-import SMA.Perceive;
+import framework.Act;
+import framework.Agent;
+import framework.Decide;
+import framework.IWorkLoad;
+import framework.Knowledge;
+import framework.Perceive;
 
 public class Agent_impl extends Agent{
 

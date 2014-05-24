@@ -1,6 +1,8 @@
-namespace SMA {
+namespace framework {
 	
 	component Agent{
+		requires tick : Tick
+		
 		requires context : IContext
 		requires actionable : IActionable
 		
@@ -25,7 +27,7 @@ namespace SMA {
 
 		provides charge :  IWorkLoad	
 	}
-
+	
 	component Perceive {
 		requires context : IContext
 		requires memory : IMemory
@@ -43,3 +45,4 @@ namespace SMA {
 		provides memory : IMemory
 	}
 }
+

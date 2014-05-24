@@ -6,7 +6,10 @@ import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import framework.Clock;
 import framework.SpeedRegulation;
@@ -14,17 +17,17 @@ import framework.Tick;
 
 public class Clock_impl extends Clock implements Tick, SpeedRegulation, Runnable{
 	private Map<String, Integer> agentToken;
-	private Map<String, Thread> waitingThreads;
+	private Map<String, Semaphore> waitingThreads;
 	
 	private ScheduledFuture<?> tickthread;
 	private int currentSpeed;
 	private boolean isFullSpeed;
 	
-	public Clock_impl() {
+	public Clock_impl(int speed) {
 		agentToken = new HashMap<String, Integer>();
-		waitingThreads = new HashMap<String, Thread>();
+		waitingThreads = new HashMap<String, Semaphore>();
 		
-		currentSpeed = 300;
+		currentSpeed = speed;
 		isFullSpeed = false;
 	}
 	
@@ -46,7 +49,7 @@ public class Clock_impl extends Clock implements Tick, SpeedRegulation, Runnable
 	@Override
 	public void play() {
 		ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
-		this.tickthread = exec.scheduleAtFixedRate(this, 0, currentSpeed, TimeUnit.MILLISECONDS);
+		this.tickthread = exec.scheduleWithFixedDelay(this, 0, currentSpeed, TimeUnit.MILLISECONDS);
 	}
 
 	@Override
@@ -61,7 +64,8 @@ public class Clock_impl extends Clock implements Tick, SpeedRegulation, Runnable
 
 	@Override
 	public void setFullSpeed(boolean isFullSpeed) {
-		this.isFullSpeed = isFullSpeed;
+		//TODO : Implement
+		//this.isFullSpeed = isFullSpeed;
 	}
 
 	@Override
@@ -74,10 +78,10 @@ public class Clock_impl extends Clock implements Tick, SpeedRegulation, Runnable
 		int tokencount = agentToken.get(uid);
 		
 		while(tokencount == 0){
-			Thread t = Thread.currentThread();
-			waitingThreads.put(uid, t);
+			Semaphore l = new Semaphore(0);
+			waitingThreads.put(uid, l);
 			try {
-				t.wait();
+				l.acquire();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -89,7 +93,8 @@ public class Clock_impl extends Clock implements Tick, SpeedRegulation, Runnable
 	}
 
 	@Override
-	public void run() {
+	public void run() {	
+		try{
 		for (Entry<String, Integer> entry : agentToken.entrySet()) {
 		    String uid = entry.getKey();
 		    int tokencount = entry.getValue();
@@ -97,9 +102,12 @@ public class Clock_impl extends Clock implements Tick, SpeedRegulation, Runnable
 		    agentToken.put(uid, tokencount + 1);
 		    
 		    if(tokencount == 0 && waitingThreads.containsKey(uid)) {
-		    	waitingThreads.get(uid).notify();
+		    	waitingThreads.get(uid).release();
 		    	waitingThreads.remove(uid);
 		    }
+		}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 

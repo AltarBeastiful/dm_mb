@@ -17,7 +17,8 @@ public class DefaultScenario extends Scenario {
 	
 	@Override
 	protected Clock make_clock() {
-		return new Clock_impl();
+		//TODO : change default speed
+		return new Clock_impl(300);
 	}
 
 	@Override

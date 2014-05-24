@@ -19,7 +19,7 @@ public class Clock_impl extends Clock implements Tick, SpeedRegulation, Runnable
 	private Map<String, Integer> agentToken;
 	private Map<String, Semaphore> waitingThreads;
 	
-	private ScheduledFuture<?> tickthread;
+	private ScheduledFuture<?> tickthread = null;
 	private int currentSpeed;
 	private boolean isFullSpeed;
 	
@@ -43,13 +43,16 @@ public class Clock_impl extends Clock implements Tick, SpeedRegulation, Runnable
 
 	@Override
 	public void pause() {
-		tickthread.cancel(false);
+		if(tickthread != null){
+			tickthread.cancel(false);
+		}
+		tickthread = null;
 	}
 
 	@Override
 	public void play() {
 		ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
-		this.tickthread = exec.scheduleWithFixedDelay(this, 0, currentSpeed, TimeUnit.MILLISECONDS);
+		tickthread = exec.scheduleWithFixedDelay(this, 0, currentSpeed, TimeUnit.MILLISECONDS);
 	}
 
 	@Override

@@ -8,12 +8,10 @@ component Clock {
 }
 
  ecosystem AgentJoining {
-// 	requires universalHello : SayHello
  	requires universalTick : Tick
  	requires universalContext : IContext
 	requires universalActionable : IActionable
  	species JoiningEntity {
-// 		provides joinHello : SayHello
  		provides joinTick : Tick
  		provides joinContext : IContext
  		provides joinActionable : IActionable
@@ -27,23 +25,19 @@ component Clock {
  	species AgentSpecies(id : String) {
  		use je : rjc.JoiningEntity
  		part agent : Agent {
-// 			bind bonjour to je.joinHello
  			bind tick to je.joinTick
  			bind context to je.joinContext
  			bind actionable to je.joinActionable
  		}
-// 		provides buenosDias : SayHello = rh.coucou
  		provides charge :  IWorkLoad = agent.charge	
  		
  	}
  	
  	part rjc : AgentJoining {
-// 		bind universalHello to ph.hello
  		bind universalTick to clock.tick
  		bind universalContext to env.context
  		bind universalActionable to env.actionable
  	}
-// 	provides helloEveryBody : SayHello
  }
 
 }

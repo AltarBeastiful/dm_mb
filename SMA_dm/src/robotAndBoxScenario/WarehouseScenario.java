@@ -1,7 +1,7 @@
 package robotAndBoxScenario;
 
-import framework.impl.DefaultScenario;
+import framework.impl.AbstractScenario;
 
-public class WarehouseScenario extends DefaultScenario {
+public class WarehouseScenario extends AbstractScenario {
 
 }

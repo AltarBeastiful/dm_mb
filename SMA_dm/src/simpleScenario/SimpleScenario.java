@@ -1,7 +1,7 @@
 package simpleScenario;
 
-import framework.impl.DefaultScenario;
+import framework.impl.AbstractScenario;
 
-public class SimpleScenario extends DefaultScenario {
+public class SimpleScenario extends AbstractScenario {
 
 }

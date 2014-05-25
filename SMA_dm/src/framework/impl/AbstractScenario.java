@@ -6,7 +6,7 @@ import framework.Clock;
 import framework.Environnement;
 import framework.Scenario;
 
-public class DefaultScenario extends Scenario {
+public class AbstractScenario extends Scenario {
 
 	@Override
 	protected void start() {

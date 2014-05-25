@@ -19,6 +19,8 @@ component Clock {
  } 
  
  ecosystem Scenario {
+ 	provides speed : SpeedRegulation = clock.speed
+ 	
 	part clock : Clock
 	part env : Environnement
 	

@@ -29,12 +29,13 @@ public class AbstractScenario extends Scenario {
 
 	@Override
 	protected AgentSpecies make_AgentSpecies(String id) {
+		final String uid = id;
 		return new AgentSpecies() {
 
 			@Override
 			protected Agent make_agent() {
 				//TODO : Allow to specify which agent implementation we want to use
-				return new Agent_impl();
+				return new Agent_impl(uid);
 			}
 			
 		};

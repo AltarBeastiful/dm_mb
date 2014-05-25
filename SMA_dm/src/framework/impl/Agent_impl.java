@@ -8,6 +8,19 @@ import framework.Knowledge;
 import framework.Perceive;
 
 public class Agent_impl extends Agent{
+	private String uid;
+	
+	public Agent_impl(String uid) {
+		this.uid = uid;
+	}
+
+	@Override
+	protected void start() {
+		// TODO Auto-generated method stub
+		super.start();
+		
+		//this.requires().tick().getTick(uid);
+	}
 
 	@Override
 	protected IWorkLoad make_charge() {

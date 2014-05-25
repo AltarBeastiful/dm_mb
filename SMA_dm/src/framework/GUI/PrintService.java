@@ -1,11 +1,13 @@
 package framework.GUI;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.util.List;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class PrintService {
@@ -24,8 +26,15 @@ public class PrintService {
 	public PrintService(int w, int h) {
 		virtualGridHeight=h;
 		virtualGridWidth=w;
+		JFrame window = new JFrame();
+		window.setVisible(true);
+		window.setSize(600, 400);
+		window.setTitle("Agents UI");
 		panel=new JPanel();
 		this.g2d=(Graphics2D) panel.getGraphics();
+		window.add(panel);
+		Container contentPane = window.getContentPane();
+		contentPane.add(panel);
 	}
 
 	public void drawComponent(List<Shape> shapes) {

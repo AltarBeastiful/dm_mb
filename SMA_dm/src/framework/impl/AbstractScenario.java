@@ -27,7 +27,7 @@ public abstract class AbstractScenario extends Scenario implements SetupScenario
 
 			@Override
 			protected Agent make_agent() {
-				return new Agent_impl(uid);
+				return new AbstractAgent(uid);
 			}
 			
 		};

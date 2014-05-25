@@ -7,10 +7,10 @@ import framework.IWorkLoad;
 import framework.Knowledge;
 import framework.Perceive;
 
-public class Agent_impl extends Agent{
+public class AbstractAgent extends Agent{
 	private String uid;
 	
-	public Agent_impl(String uid) {
+	public AbstractAgent(String uid) {
 		this.uid = uid;
 	}
 

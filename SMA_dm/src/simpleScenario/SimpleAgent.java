@@ -6,9 +6,9 @@ import framework.IMemory;
 import framework.IWorkLoad;
 import framework.Knowledge;
 import framework.Perceive;
-import framework.impl.Agent_impl;
+import framework.impl.AbstractAgent;
 
-public class SimpleAgent extends Agent_impl {
+public class SimpleAgent extends AbstractAgent {
 
 	public SimpleAgent(String uid) {
 		super(uid);

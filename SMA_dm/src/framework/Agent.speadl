@@ -1,10 +1,12 @@
 namespace framework {
 	
-	component Agent{
+	component Agent{		
 		requires tick : Tick
 		
 		requires context : IContext
 		requires actionable : IActionable
+		
+		provides actObservable : ActObservable
 		
 		part perception : Perceive {
 			bind context to context

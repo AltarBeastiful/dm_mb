@@ -1,6 +1,7 @@
 package framework.impl;
 
 import framework.Act;
+import framework.ActObservable;
 import framework.Agent;
 import framework.Decide;
 import framework.IWorkLoad;
@@ -48,6 +49,12 @@ public class AbstractAgent extends Agent{
 
 	@Override
 	protected Knowledge make_knowledge() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected ActObservable make_actObservable() {
 		// TODO Auto-generated method stub
 		return null;
 	}

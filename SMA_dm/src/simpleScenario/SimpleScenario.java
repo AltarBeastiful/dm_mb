@@ -2,6 +2,7 @@ package simpleScenario;
 
 import framework.Agent;
 import framework.Environnement;
+import framework.Gui;
 import framework.Scenario;
 import framework.impl.AbstractScenario;
 
@@ -15,6 +16,8 @@ public class SimpleScenario extends AbstractScenario {
 		scenario.setup().addAgent();
 		
 		scenario.speed().play();
+		
+		
 	}
 	
 	@Override
@@ -33,5 +36,11 @@ public class SimpleScenario extends AbstractScenario {
 	@Override
 	protected Environnement make_env() {
 		return new SimpleEnvironnement();
+	}
+
+	@Override
+	protected Gui make_gui() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

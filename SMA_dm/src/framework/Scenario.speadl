@@ -19,6 +19,7 @@ component Clock {
  } 
  
  ecosystem Scenario {
+ 	provides setup : SetupScenario
  	provides speed : SpeedRegulation = clock.speed
  	
 	part clock : Clock

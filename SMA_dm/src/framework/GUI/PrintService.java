@@ -6,20 +6,26 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.util.List;
 
+import javax.swing.JPanel;
+
 public class PrintService {
 
 	private Graphics2D g2d;
+	private JPanel panel;
 	private int widthRatio;
 	private int heightRatio;
 	private int virtualGridWidth = 100;
 	private int virtualGridHeight = 100;
 
 	public PrintService() {
-		// TODO Auto-generated constructor stub
+		panel=new JPanel();
+		this.g2d=(Graphics2D) panel.getGraphics();
 	}
 	public PrintService(int w, int h) {
 		virtualGridHeight=h;
 		virtualGridWidth=w;
+		panel=new JPanel();
+		this.g2d=(Graphics2D) panel.getGraphics();
 	}
 
 	public void drawComponent(List<Shape> shapes) {
@@ -45,12 +51,12 @@ public class PrintService {
 		heightRatio = Math.round(h / virtualGridHeight);
 	}
 	
-	public void drawGrid(int width, int height){
-		for (int x = 1; x < width + 1; x++) {
-			g2d.drawLine((x * widthRatio), 0, (x * widthRatio), height);
+	public void drawGrid(){
+		for (int x = 1; x < panel.getHeight()+ 1; x++) {
+			g2d.drawLine((x * widthRatio), 0, (x * widthRatio),panel.getWidth() );
 		}
-		for (int y = 1; y < height + 1; y++) {
-			g2d.drawLine(0, (y * heightRatio), width, (y * heightRatio));
+		for (int y = 1; y < panel.getHeight() + 1; y++) {
+			g2d.drawLine(0, (y * heightRatio), panel.getWidth(), (y * heightRatio));
 		}
 	}
 
@@ -65,7 +71,8 @@ public class PrintService {
 
 	public void setGraphics(Graphics2D g2d) {
 		this.g2d = g2d;
-
 	}
-
+	public JPanel getPanel() {
+		return panel;
+	}
 }

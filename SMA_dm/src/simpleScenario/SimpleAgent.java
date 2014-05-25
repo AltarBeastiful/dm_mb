@@ -2,36 +2,50 @@ package simpleScenario;
 
 import framework.Act;
 import framework.Decide;
+import framework.DecisionMaking;
 import framework.IMemory;
 import framework.IWorkLoad;
 import framework.Knowledge;
 import framework.Perceive;
 import framework.impl.AbstractAgent;
+import framework.impl.AbstractPerceive;
+import framework.Callable;
 
 public class SimpleAgent extends AbstractAgent {
 
+	// no coords but in an other example yeah !
 	public SimpleAgent(String uid) {
 		super(uid);
 	}
 	
 	@Override
 	protected Perceive make_perception() {
-		return new Perceive() {
-			//Percieve nothing
-		};
+		return new 
 	}
 	
 	@Override
 	protected Decide make_decision() {
 		return new Decide() {
-			//Decide nothing
+
+			@Override
+			protected DecisionMaking make_decision() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			// get context from perception
+			// get the updated memory 
+			// calculate the best choice
+			// give the choice to act !
 		};
 	}
 	
 	@Override
-	protected Act make_act() {
+	protected Act make_action() {
 		return new Act() {
-			//Do nothing
+			// get the decision from decision
+			// give the action to environement and if that it's possible 
+			// update agent state : x and y 
+			// if it wasn"t possible : do nothing or second best choice !	
 		};
 	}
 	
@@ -44,12 +58,7 @@ public class SimpleAgent extends AbstractAgent {
 			protected IMemory make_memory() {
 				// TODO Auto-generated method stub
 				return new IMemory() {
-					
-					@Override
-					public boolean isKnown(int x, int y) {
-						// TODO Auto-generated method stub
-						return false;
-					}
+				
 				};
 			}
 		};

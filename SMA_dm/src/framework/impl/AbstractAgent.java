@@ -14,13 +14,19 @@ public class AbstractAgent extends Agent{
 	public AbstractAgent(String uid) {
 		this.uid = uid;
 	}
-
+	
+	public void startCycle() {
+		// creation of a thread 
+		// launch perception in loop 
+		// alreayd connected
+	}
+	
 	@Override
 	protected void start() {
-		// TODO Auto-generated method stub
 		super.start();
-		
 		//this.requires().tick().getTick(uid);
+		// thread
+		// launch startCycle !
 	}
 
 	@Override
@@ -31,24 +37,22 @@ public class AbstractAgent extends Agent{
 
 	@Override
 	protected Perceive make_perception() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected Decide make_decision() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected Act make_act() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected Knowledge make_knowledge() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Act make_action() {
 		// TODO Auto-generated method stub
 		return null;
 	}

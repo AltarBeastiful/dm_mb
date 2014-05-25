@@ -1,3 +1,5 @@
+import framework.IActionable
+
 namespace framework {
 
 component Environnement{

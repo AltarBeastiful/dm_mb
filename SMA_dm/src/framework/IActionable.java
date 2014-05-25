@@ -1,7 +1,6 @@
 package framework;
+import framework.Agent;
 
-
-//Maybe remove agent parameter
 public interface IActionable {
 	
 }

@@ -11,18 +11,18 @@ namespace framework {
 		part perception : Perceive {
 			bind context to context
 			bind memory to knowledge.memory
-		
-			//bind decide
+			bind decision to decision.decision
 		}
 		
 		part decision : Decide {
 			bind memory to knowledge.memory
-			
-			//bind act 
+			bind action to action.action
 		}
 		
-		part act : Act {
+		part action : Act { 
 			bind env to actionable
+			bind perception to perception.perception
+			
 		}
 		
 		part knowledge : Knowledge
@@ -33,14 +33,21 @@ namespace framework {
 	component Perceive {
 		requires context : IContext
 		requires memory : IMemory
+		provides perception : Callable
+		requires decision : Callable
 	}
 	
 	component Decide {
-		requires memory : IMemory 
+		requires memory : IMemory
+		requires action : IActionable
+		provides decision : Callable	
 	}
 	
 	component Act {
 		requires env : IActionable
+		requires perception : Callable
+		
+		provides action : IActionable
 	}
 	
 	component Knowledge {

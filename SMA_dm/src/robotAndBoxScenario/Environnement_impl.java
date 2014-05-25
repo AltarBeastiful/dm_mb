@@ -30,7 +30,7 @@ public class Environnement_impl extends Environnement implements ContextExtern_i
 		return this;
 	}
 
-	@Override
+//	@Override
 	public boolean move(int x, int y, int newX, int newY) throws Exception {
 		// TODO Auto-generated method stub
 		Point p = new Point(newX, newY);
@@ -61,7 +61,7 @@ public class Environnement_impl extends Environnement implements ContextExtern_i
 		return true;	
 	}
 
-	@Override
+//	@Override
 	public boolean pickupBox(Agent a, int x, int y) {
 		// TODO Auto-generated method stub
 		return false;

@@ -3,6 +3,7 @@ package simpleScenario;
 import framework.Act;
 import framework.Decide;
 import framework.DecisionMaking;
+import framework.IActionable;
 import framework.IMemory;
 import framework.IWorkLoad;
 import framework.Knowledge;
@@ -20,7 +21,14 @@ public class SimpleAgent extends AbstractAgent {
 	
 	@Override
 	protected Perceive make_perception() {
-		return new 
+		return new Perceive() {
+			
+			@Override
+			protected Callable make_perception() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		};
 	}
 	
 	@Override
@@ -28,7 +36,7 @@ public class SimpleAgent extends AbstractAgent {
 		return new Decide() {
 
 			@Override
-			protected DecisionMaking make_decision() {
+			protected Callable make_decision() {
 				// TODO Auto-generated method stub
 				return null;
 			}
@@ -42,6 +50,12 @@ public class SimpleAgent extends AbstractAgent {
 	@Override
 	protected Act make_action() {
 		return new Act() {
+
+			@Override
+			protected IActionable make_action() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 			// get the decision from decision
 			// give the action to environement and if that it's possible 
 			// update agent state : x and y 

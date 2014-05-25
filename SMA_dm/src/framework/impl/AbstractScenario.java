@@ -12,19 +12,11 @@ import framework.SetupScenario;
 public abstract class AbstractScenario extends Scenario implements SetupScenario {
 
 	@Override
-	protected void start() {
-		// TODO Auto-generated method stub
-		super.start();	
-//		newAgentSpecies("1");
-	}
-	
-	@Override
 	protected Clock make_clock() {
 		//TODO : change default speed
 		return new Clock_impl(300);
 	}
 
-	//Make method abstract?
 	@Override
 	protected abstract Environnement make_env();
 
@@ -35,7 +27,6 @@ public abstract class AbstractScenario extends Scenario implements SetupScenario
 
 			@Override
 			protected Agent make_agent() {
-				//TODO : Allow to specify which agent implementation we want to use
 				return new Agent_impl(uid);
 			}
 			

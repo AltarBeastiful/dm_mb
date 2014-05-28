@@ -5,6 +5,11 @@ import framework.DecisionMaking;
 import framework.Perceive;
 
 public abstract class  AbstractPerceive extends Perceive implements Callable{
+	private String uid;
+	
+	public AbstractPerceive(String agentUid) {
+		this.uid = agentUid;
+	}
 
 	public abstract void perceive();
 	@Override
@@ -15,6 +20,7 @@ public abstract class  AbstractPerceive extends Perceive implements Callable{
 
 	@Override
 	public void launch() {
+		this.requires().tick().getTick(uid);
 		this.perceive();
 		this.requires().decision().launch();
 	}

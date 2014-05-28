@@ -14,20 +14,6 @@ public class AbstractAgent extends Agent{
 	public AbstractAgent(String uid) {
 		this.uid = uid;
 	}
-	
-	public void startCycle() {
-		// creation of a thread 
-		// launch perception in loop 
-		// alreayd connected
-	}
-	
-	@Override
-	protected void start() {
-		super.start();
-		//this.requires().tick().getTick(uid);
-		// thread
-		// launch startCycle !
-	}
 
 	@Override
 	protected IWorkLoad make_charge() {
@@ -53,12 +39,6 @@ public class AbstractAgent extends Agent{
 
 	@Override
 	protected Act make_action() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected ActObservable make_actObservable() {
 		// TODO Auto-generated method stub
 		return null;
 	}

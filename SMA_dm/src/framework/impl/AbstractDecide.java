@@ -8,9 +8,9 @@ import framework.Perceive;
 public abstract class  AbstractDecide extends Decide implements Callable{
 
 	public abstract void decide();
+	
 	@Override
 	protected Callable make_decision() {
-		// TODO Auto-generated method stub
 		return this;
 	}
 

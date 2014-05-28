@@ -6,12 +6,13 @@ namespace framework {
 		requires context : IContext
 		requires actionable : IActionable
 		
-		provides actObservable : ActObservable
+		provides actObservable : ActObservable = action.observable
 		
 		part perception : Perceive {
 			bind context to context
 			bind memory to knowledge.memory
 			bind decision to decision.decision
+			bind tick to tick
 		}
 		
 		part decision : Decide {
@@ -33,6 +34,9 @@ namespace framework {
 	component Perceive {
 		requires context : IContext
 		requires memory : IMemory
+		
+		requires tick : Tick
+		
 		provides perception : Callable
 		requires decision : Callable
 	}
@@ -48,6 +52,8 @@ namespace framework {
 		requires perception : Callable
 		
 		provides action : IActionable
+		
+		provides observable : ActObservable
 	}
 	
 	component Knowledge {

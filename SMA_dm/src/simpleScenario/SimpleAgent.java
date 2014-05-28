@@ -8,6 +8,7 @@ import framework.IMemory;
 import framework.IWorkLoad;
 import framework.Knowledge;
 import framework.Perceive;
+import framework.impl.AbstractAct;
 import framework.impl.AbstractAgent;
 import framework.impl.AbstractPerceive;
 import framework.Callable;
@@ -49,17 +50,13 @@ public class SimpleAgent extends AbstractAgent {
 	
 	@Override
 	protected Act make_action() {
-		return new Act() {
-
+		return new AbstractAct() {
+			
 			@Override
-			protected IActionable make_action() {
+			public void action() {
 				// TODO Auto-generated method stub
-				return null;
+				
 			}
-			// get the decision from decision
-			// give the action to environement and if that it's possible 
-			// update agent state : x and y 
-			// if it wasn"t possible : do nothing or second best choice !	
 		};
 	}
 	

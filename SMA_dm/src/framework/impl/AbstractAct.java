@@ -18,9 +18,9 @@ public abstract class AbstractAct extends Act  implements IActionable, DecisionM
 	}
 
 	public abstract void action();
+	
 	@Override
 	protected IActionable make_action() {
-		// TODO Auto-generated method stub
 		return this;
 	}
 
@@ -46,6 +46,11 @@ public abstract class AbstractAct extends Act  implements IActionable, DecisionM
 	@Override
 	public void addActListener(ActListener ac) {
 		listeners.add(ac);
+	}
+
+	@Override
+	protected ActObservable make_observable() {
+		return this;
 	}
 
 	

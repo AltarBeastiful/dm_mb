@@ -15,5 +15,6 @@ public abstract class  AbstractDecide extends Decide implements Callable{
 	@Override
 	public void run() {
 		this.decide(); // get something that lead to an action, code by user
+		this.requires().perception().run();
 	}
 }

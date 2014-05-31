@@ -13,7 +13,7 @@ public abstract class  AbstractDecide extends Decide implements Callable{
 	}
 
 	@Override
-	public void launch() {
+	public void run() {
 		this.decide(); // get something that lead to an action, code by user
 	}
 }

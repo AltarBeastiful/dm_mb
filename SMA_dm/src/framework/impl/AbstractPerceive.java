@@ -11,17 +11,17 @@ public abstract class  AbstractPerceive extends Perceive implements Callable{
 	}
 
 	public abstract void perceive();
+	
 	@Override
 	protected Callable make_perception() {
-		// TODO Auto-generated method stub
 		return this;
 	}
 
 	@Override
-	public void launch() {
+	public void run() {
 		this.requires().tick().getTick(uid);
 		this.perceive();
-		this.requires().decision().launch();
+		this.requires().decision().run();
 	}
 	
 }

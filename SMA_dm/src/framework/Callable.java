@@ -1,5 +1,5 @@
 package framework;
 
-public interface Callable {
-	public void launch();
+public interface Callable extends Runnable{
+	public void run();
 }

@@ -1,7 +1,6 @@
 package framework.impl;
 
 import framework.Callable;
-import framework.DecisionMaking;
 import framework.Perceive;
 
 public abstract class  AbstractPerceive extends Perceive implements Callable{

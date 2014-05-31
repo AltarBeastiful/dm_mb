@@ -6,29 +6,19 @@ import java.util.List;
 import framework.Act;
 import framework.ActListener;
 import framework.ActObservable;
-import framework.DecisionMaking;
 import framework.IActionable;
 
 
-public abstract class AbstractAct extends Act  implements IActionable, DecisionMaking, ActObservable{
+public abstract class AbstractAct extends Act  implements IActionable, ActObservable{
 	private List<ActListener> listeners;
 	
 	public AbstractAct(){
 		listeners = new ArrayList<ActListener>();
 	}
-
-	public abstract void action();
 	
 	@Override
 	protected IActionable make_action() {
 		return this;
-	}
-
-	@Override
-	public void launch() {
-		// get the decision choice HOW ? 
-		action();
-		this.requires().perception().launch();
 	}
 
 	@Override

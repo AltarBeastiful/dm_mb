@@ -2,8 +2,6 @@ package framework.impl;
 
 import framework.Callable;
 import framework.Decide;
-import framework.DecisionMaking;
-import framework.Perceive;
 
 public abstract class  AbstractDecide extends Decide implements Callable{
 

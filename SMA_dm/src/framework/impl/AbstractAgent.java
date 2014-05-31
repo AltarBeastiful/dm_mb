@@ -32,24 +32,44 @@ public abstract class AbstractAgent extends Agent{
 
 	@Override
 	protected Perceive make_perception() {
-		return null;
+		return new AbstractPerceive(uid) {
+			
+			@Override
+			public void perceive() {
+				// TODO Auto-generated method stub
+				
+			}
+		};
 	}
 
 	@Override
 	protected Decide make_decision() {
-		return null;
+		return new AbstractDecide() {
+			
+			@Override
+			public void decide() {
+				// TODO Auto-generated method stub
+				
+			}
+		};
 	}
 
 	@Override
 	protected Knowledge make_knowledge() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Knowledge() {
+			
+			@Override
+			protected IMemory make_memory() {
+				return new IMemory() {
+				}; 
+			}
+		};
 	}
 
 	@Override
 	protected Act make_action() {
-		// TODO Auto-generated method stub
-		return null;
+		return new AbstractAct() {
+		};
 	}
 
 }

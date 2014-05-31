@@ -33,17 +33,7 @@ public abstract  class AbstractScenario extends Scenario implements SetupScenari
 	protected abstract Environnement make_env();
 
 	@Override
-	protected AgentSpecies make_AgentSpecies(String id) {
-		final String uid = id;
-		return new AgentSpecies() {
-
-			@Override
-			protected Agent make_agent() {
-				return new AbstractAgent(uid);
-			}
-			
-		};
-	}
+	protected abstract AgentSpecies make_AgentSpecies(String id);
 
 	@Override
 	protected AgentJoining make_rjc() {

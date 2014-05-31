@@ -8,6 +8,10 @@ import framework.impl.AbstractScenario;
 
 public class SimpleScenario extends AbstractScenario {
 	
+	public SimpleScenario() {
+		super(5000);
+	}
+	
 	public static void main(String[] args) {
 		Scenario.Component scenario = new SimpleScenario().newComponent();
 		

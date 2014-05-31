@@ -16,15 +16,17 @@ import framework.SetupScenario;
 
 public abstract  class AbstractScenario extends Scenario implements SetupScenario {
 	private List<Scenario.AgentSpecies.Component> agents;
+	private int defaultSpeed;
 	
-	public AbstractScenario() {
+	public AbstractScenario(int defaultSpeed) {
 		agents = new ArrayList<Scenario.AgentSpecies.Component>();
+		
+		this.defaultSpeed = defaultSpeed;
 	}
 
 	@Override
 	protected Clock make_clock() {
-		//TODO : change default speed
-		return new Clock_impl(300);
+		return new Clock_impl(defaultSpeed);
 	}
 
 	@Override

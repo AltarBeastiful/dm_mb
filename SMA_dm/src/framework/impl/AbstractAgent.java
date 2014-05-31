@@ -1,18 +1,27 @@
 package framework.impl;
 
 import framework.Act;
-import framework.ActObservable;
 import framework.Agent;
 import framework.Decide;
+import framework.IMemory;
 import framework.IWorkLoad;
 import framework.Knowledge;
 import framework.Perceive;
 
-public class AbstractAgent extends Agent{
+public abstract class AbstractAgent extends Agent{
 	private String uid;
+	private Thread t;
 	
 	public AbstractAgent(String uid) {
 		this.uid = uid;
+		t = null;
+	}
+	
+	@Override
+	protected void start() {
+		super.start();
+		t = new Thread(this.parts().perception().perception());
+		t.start();
 	}
 
 	@Override

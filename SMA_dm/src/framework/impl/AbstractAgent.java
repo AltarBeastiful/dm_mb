@@ -71,5 +71,8 @@ public abstract class AbstractAgent extends Agent{
 		return new AbstractAct() {
 		};
 	}
-
+	
+	public String getUid() {
+		return this.uid;
+	}
 }

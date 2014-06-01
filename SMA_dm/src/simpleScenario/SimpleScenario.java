@@ -18,24 +18,8 @@ public class SimpleScenario extends AbstractScenario {
 		
 		scenario.setup().addAgent();
 		scenario.setup().addAgent();
-		scenario.setup().addAgent();
 		
 		scenario.speed().play();
-		
-		
-	}
-	
-	@Override
-	protected AgentSpecies make_AgentSpecies(String id) {
-		final String uid = id;
-		return new AgentSpecies() {
-
-			@Override
-			protected Agent make_agent() {
-				return new SimpleAgent(uid);
-			}
-			
-		};
 	}
 
 	@Override
@@ -53,5 +37,9 @@ public class SimpleScenario extends AbstractScenario {
 			}
 		};
 	}
+
+	@Override
+	protected Agent make_agent(String id) {
+		return new SimpleAgent(id);
 	}
 }

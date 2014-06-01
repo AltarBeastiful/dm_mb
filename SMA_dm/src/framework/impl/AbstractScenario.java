@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import simpleScenario.SimpleAgent;
 import framework.ActListener;
 import framework.ActObservable;
 import framework.Agent;
@@ -13,6 +14,7 @@ import framework.Environnement;
 import framework.Gui;
 import framework.Scenario;
 import framework.SetupScenario;
+import framework.Scenario.AgentSpecies;
 
 public abstract  class AbstractScenario extends Scenario implements SetupScenario {
 	private List<Scenario.AgentSpecies.Component> agents;
@@ -31,9 +33,21 @@ public abstract  class AbstractScenario extends Scenario implements SetupScenari
 
 	@Override
 	protected abstract Environnement make_env();
+	
+	protected abstract Agent make_agent(String id);
 
 	@Override
-	protected abstract AgentSpecies make_AgentSpecies(String id);
+	protected AgentSpecies make_AgentSpecies(String id) {
+		final String uid = id;
+		return new AgentSpecies() {
+
+			@Override
+			protected Agent make_agent() {
+				return AbstractScenario.this.make_agent(uid);
+			}
+			
+		};
+	}
 
 	@Override
 	protected AgentJoining make_rjc() {

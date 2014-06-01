@@ -18,6 +18,9 @@ public class SimpleScenario extends AbstractScenario {
 		
 		scenario.setup().addAgent();
 		scenario.setup().addAgent();
+		scenario.setup().addAgent();
+		scenario.setup().addAgent();
+		scenario.setup().addAgent();
 		
 		scenario.speed().play();
 	}

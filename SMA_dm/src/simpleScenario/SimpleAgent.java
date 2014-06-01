@@ -43,7 +43,6 @@ public class SimpleAgent extends AbstractAgent {
 				//Deciding.....
 				
 				//Now I'll act !
-				System.out.println("Start Acting");
 				((SimpleActionable)this.requires().action()).toggleIsSimple();
 			}
 		};
@@ -80,9 +79,7 @@ public class SimpleAgent extends AbstractAgent {
 
 		@Override
 		public void toggleIsSimple() {
-			System.out.println("Start act : toggleAction");
 			getActionable().toggleIsSimple();
-			System.out.println("firing action listener");
 			this.fireAct();
 		}
 		

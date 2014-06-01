@@ -3,6 +3,7 @@ package framework.impl;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -24,8 +25,8 @@ public class Clock_impl extends Clock implements Tick, SpeedRegulation, Runnable
 	private boolean isFullSpeed;
 	
 	public Clock_impl(int speed) {
-		agentToken = new HashMap<String, Integer>();
-		waitingThreads = new HashMap<String, Semaphore>();
+		agentToken = new ConcurrentHashMap<String, Integer>();
+		waitingThreads = new ConcurrentHashMap<String, Semaphore>();
 		
 		currentSpeed = speed;
 		isFullSpeed = false;
@@ -43,6 +44,7 @@ public class Clock_impl extends Clock implements Tick, SpeedRegulation, Runnable
 
 	@Override
 	public void pause() {
+		//TODO : find better way than cancel. A real oause from current token attribution owuld be cool. ! of deadlock if paused when accessing synchronized data 
 		if(tickthread != null){
 			tickthread.cancel(false);
 		}
@@ -52,7 +54,7 @@ public class Clock_impl extends Clock implements Tick, SpeedRegulation, Runnable
 	@Override
 	public void play() {
 		ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
-		tickthread = exec.scheduleWithFixedDelay(this, 0, currentSpeed, TimeUnit.MILLISECONDS);
+		tickthread = exec.scheduleAtFixedRate(this, 0, currentSpeed, TimeUnit.MILLISECONDS);
 	}
 
 	@Override
@@ -63,6 +65,7 @@ public class Clock_impl extends Clock implements Tick, SpeedRegulation, Runnable
 	@Override
 	public void setSpeed(int speed) {
 		currentSpeed = speed;
+		//TODO : Actually chance speed of tickthread + make test for it
 	}
 
 	@Override
@@ -92,6 +95,7 @@ public class Clock_impl extends Clock implements Tick, SpeedRegulation, Runnable
 			tokencount = agentToken.get(uid);
 		}
 		
+		//TODO : token count can change in the meantime, don't use var tokencount for minus. agentToken = monitor?
 		agentToken.put(uid, tokencount - 1);
 	}
 

@@ -4,6 +4,7 @@ import framework.Agent;
 import framework.Environnement;
 import framework.Gui;
 import framework.Scenario;
+import framework.impl.AbstractGui;
 import framework.impl.AbstractScenario;
 
 public class SimpleScenario extends AbstractScenario {
@@ -44,7 +45,13 @@ public class SimpleScenario extends AbstractScenario {
 
 	@Override
 	protected Gui make_gui() {
-		// TODO Auto-generated method stub
-		return null;
+		return new AbstractGui() {
+			
+			@Override
+			public void actFired() {
+				System.out.println("Act was fired => Redrawing gui");
+			}
+		};
+	}
 	}
 }

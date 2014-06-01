@@ -2,16 +2,14 @@ package simpleScenario;
 
 import framework.Act;
 import framework.Decide;
-import framework.DecisionMaking;
-import framework.IActionable;
 import framework.IMemory;
 import framework.IWorkLoad;
 import framework.Knowledge;
 import framework.Perceive;
 import framework.impl.AbstractAct;
 import framework.impl.AbstractAgent;
+import framework.impl.AbstractDecide;
 import framework.impl.AbstractPerceive;
-import framework.Callable;
 
 public class SimpleAgent extends AbstractAgent {
 
@@ -22,42 +20,38 @@ public class SimpleAgent extends AbstractAgent {
 	
 	@Override
 	protected Perceive make_perception() {
-		return new Perceive() {
+		return new AbstractPerceive(getUid()) {
 			
 			@Override
-			protected Callable make_perception() {
-				// TODO Auto-generated method stub
-				return null;
+			public void perceive() {
+				System.out.println(getUid() + " : " + ((SimpleContext)this.requires().context()).getStatus());
 			}
 		};
 	}
 	
 	@Override
 	protected Decide make_decision() {
-		return new Decide() {
-
+		return new AbstractDecide() {
+			
 			@Override
-			protected Callable make_decision() {
-				// TODO Auto-generated method stub
-				return null;
+			public void decide() {
+				// get context from perception
+				// get the updated memory 
+				// calculate the best choice
+				// give the choice to act !
+				
+				//Deciding.....
+				
+				//Now I'll act !
+				System.out.println("Start Acting");
+				((SimpleActionable)this.requires().action()).toggleIsSimple();
 			}
-			// get context from perception
-			// get the updated memory 
-			// calculate the best choice
-			// give the choice to act !
 		};
 	}
 	
 	@Override
 	protected Act make_action() {
-		return new AbstractAct() {
-			
-			@Override
-			public void action() {
-				// TODO Auto-generated method stub
-				
-			}
-		};
+		return new SimpleAct();
 	}
 	
 	@Override
@@ -80,6 +74,21 @@ public class SimpleAgent extends AbstractAgent {
 		// TODO Auto-generated method stub
 		return new IWorkLoad() {
 		};
+	}
+	
+	public class SimpleAct extends AbstractAct implements SimpleActionable {
+
+		@Override
+		public void toggleIsSimple() {
+			System.out.println("Start act : toggleAction");
+			getActionable().toggleIsSimple();
+			System.out.println("firing action listener");
+			this.fireAct();
+		}
+		
+		private SimpleActionable getActionable() { 
+			return ((SimpleActionable)this.requires().env());
+		}
 	}
 	
 }

@@ -16,14 +16,23 @@ import framework.Scenario;
 import framework.SetupScenario;
 import framework.Scenario.AgentSpecies;
 
-public abstract  class AbstractScenario extends Scenario implements SetupScenario {
+public abstract  class AbstractScenario extends Scenario implements SetupScenario, ActObservable {
+	private List<ActListener> listeners;
 	private List<Scenario.AgentSpecies.Component> agents;
 	private int defaultSpeed;
 	
 	public AbstractScenario(int defaultSpeed) {
 		agents = new ArrayList<Scenario.AgentSpecies.Component>();
+		listeners = new ArrayList<ActListener>();
 		
 		this.defaultSpeed = defaultSpeed;
+	}
+	
+	@Override
+	protected void start() {
+		super.start();
+		
+		this.provides().observeAllAgents().addActListener(this.parts().gui().actListener());
 	}
 
 	@Override
@@ -61,34 +70,46 @@ public abstract  class AbstractScenario extends Scenario implements SetupScenari
 
 	@Override
 	public void addAgent() {
-		agents.add(newAgentSpecies(UUID.randomUUID().toString()));
+		Scenario.AgentSpecies.Component a = newAgentSpecies(UUID.randomUUID().toString());
+		updateListeners(a);
+		agents.add(a);
 	}
 
 	@Override
 	protected ActObservable make_observeAllAgents() {
-		return new ActObservable() {
-			
-			@Override
-			public void removeActListener(ActListener ac) {
-				for (AgentSpecies.Component species : agents ) {
-					species.actObservable().removeActListener(ac);;
-				}
-			}
-			
-			@Override
-			public void fireAct() {
-				for (AgentSpecies.Component species : agents ) {
-					species.actObservable().fireAct();
-				}
-			}
-			
-			@Override
-			public void addActListener(ActListener ac) {
-				for (AgentSpecies.Component species : agents ) {
-					species.actObservable().addActListener(ac);
-				}
-			}
-		};
+		return this;
+	}
+	
+	@Override
+	public void removeActListener(ActListener ac) {
+		listeners.remove(ac);
+		
+		for (AgentSpecies.Component species : agents ) {
+			species.actObservable().removeActListener(ac);;
+		}
+	}
+	
+	@Override
+	public void fireAct() {
+		for (AgentSpecies.Component species : agents ) {
+			species.actObservable().fireAct();
+		}
+	}
+	
+	@Override
+	public void addActListener(ActListener ac) {
+		if (!listeners.contains(ac))
+			listeners.add(ac);
+		
+		for (AgentSpecies.Component species : agents ) {
+			species.actObservable().addActListener(ac);
+		}
+	}
+	
+	protected void updateListeners(Scenario.AgentSpecies.Component a) {
+		for (ActListener ac : listeners) {
+			a.actObservable().addActListener(ac);
+		}
 	}
 
 	@Override

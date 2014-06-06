@@ -1,7 +1,6 @@
 package simpleScenario;
 
-import framework.IContext;
 
-public interface SimpleContext extends IContext {
+public interface SimpleContext {
 	public String getStatus();
 }

@@ -7,14 +7,14 @@ import framework.Scenario;
 import framework.impl.AbstractGui;
 import framework.impl.AbstractScenario;
 
-public class SimpleScenario extends AbstractScenario {
+public class SimpleScenario extends AbstractScenario<SimpleContext, SimpleActionable> {
 	
 	public SimpleScenario() {
 		super(5000);
 	}
 	
 	public static void main(String[] args) {
-		Scenario.Component scenario = new SimpleScenario().newComponent();
+		Scenario.Component<SimpleContext, SimpleActionable> scenario = new SimpleScenario().newComponent();
 		
 		scenario.setup().addAgent();
 		scenario.setup().addAgent();
@@ -26,7 +26,7 @@ public class SimpleScenario extends AbstractScenario {
 	}
 
 	@Override
-	protected Environnement make_env() {
+	protected Environnement<SimpleContext, SimpleActionable> make_env() {
 		return new SimpleEnvironnement();
 	}
 
@@ -42,7 +42,8 @@ public class SimpleScenario extends AbstractScenario {
 	}
 
 	@Override
-	protected Agent make_agent(String id) {
+	protected Agent<SimpleContext, SimpleActionable> make_agent(String id) {
 		return new SimpleAgent(id);
 	}
+
 }

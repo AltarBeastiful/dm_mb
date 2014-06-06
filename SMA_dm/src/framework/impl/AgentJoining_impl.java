@@ -1,15 +1,13 @@
 package framework.impl;
 
 import framework.AgentJoining;
-import framework.IActionable;
-import framework.IContext;
 import framework.Tick;
 
-public class AgentJoining_impl extends AgentJoining {
+public class AgentJoining_impl<Context, Actionable> extends AgentJoining<Context, Actionable> {
 
 	@Override
-	protected JoiningEntity make_JoiningEntity() {
-		return new JoiningEntity() {
+	protected JoiningEntity<Context, Actionable> make_JoiningEntity() {
+		return new JoiningEntity<Context, Actionable>() {
 
 			@Override
 			protected Tick make_joinTick() {
@@ -17,12 +15,12 @@ public class AgentJoining_impl extends AgentJoining {
 			}
 
 			@Override
-			protected IContext make_joinContext() {
+			protected Context make_joinContext() {
 				return eco_requires().universalContext();
 			}
 
 			@Override
-			protected IActionable make_joinActionable() {
+			protected Actionable make_joinActionable() {
 				return eco_requires().universalActionable();
 			}
 			

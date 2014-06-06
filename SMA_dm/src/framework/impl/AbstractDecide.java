@@ -3,7 +3,7 @@ package framework.impl;
 import framework.Callable;
 import framework.Decide;
 
-public abstract class  AbstractDecide extends Decide implements Callable{
+public abstract class AbstractDecide<Actionable> extends Decide<Actionable> implements Callable{
 
 	public abstract void decide();
 	

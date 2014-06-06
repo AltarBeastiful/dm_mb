@@ -1,10 +1,8 @@
 package simpleScenario;
 
 import framework.Environnement;
-import framework.IActionable;
-import framework.IContext;
 
-public class SimpleEnvironnement extends Environnement implements SimpleContext, SimpleActionable {
+public class SimpleEnvironnement extends Environnement<SimpleContext, SimpleActionable> implements SimpleContext, SimpleActionable {
 	boolean isSimple;
 	
 	public SimpleEnvironnement() {
@@ -12,12 +10,12 @@ public class SimpleEnvironnement extends Environnement implements SimpleContext,
 	}
 
 	@Override
-	protected IContext make_context() {
+	protected SimpleContext make_context() {
 		return this;
 	}
 
 	@Override
-	protected IActionable make_actionable() {
+	protected SimpleActionable make_actionable() {
 		return this;
 	}
 

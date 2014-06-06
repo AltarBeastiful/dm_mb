@@ -8,7 +8,7 @@ import framework.IWorkLoad;
 import framework.Knowledge;
 import framework.Perceive;
 
-public abstract class AbstractAgent extends Agent{
+public abstract class AbstractAgent<Context, Actionable> extends Agent<Context, Actionable>{
 	private String uid;
 	private Thread t;
 	
@@ -31,29 +31,14 @@ public abstract class AbstractAgent extends Agent{
 	}
 
 	@Override
-	protected Perceive make_perception() {
-		return new AbstractPerceive(uid) {
-			
-			@Override
-			public void perceive() {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-	}
+	protected abstract Perceive<Context> make_perception();
 
 	@Override
-	protected Decide make_decision() {
-		return new AbstractDecide() {
-			
-			@Override
-			public void decide() {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-	}
+	protected abstract Decide<Actionable> make_decision(); 
 
+	@Override
+	protected abstract Act<Actionable> make_action();
+	
 	@Override
 	protected Knowledge make_knowledge() {
 		return new Knowledge() {
@@ -66,12 +51,6 @@ public abstract class AbstractAgent extends Agent{
 		};
 	}
 
-	@Override
-	protected Act make_action() {
-		return new AbstractAct() {
-		};
-	}
-	
 	public String getUid() {
 		return this.uid;
 	}

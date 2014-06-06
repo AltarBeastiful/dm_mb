@@ -6,32 +6,34 @@ import framework.IMemory;
 import framework.IWorkLoad;
 import framework.Knowledge;
 import framework.Perceive;
+import framework.SetupAgent;
 import framework.impl.AbstractAct;
 import framework.impl.AbstractAgent;
 import framework.impl.AbstractDecide;
 import framework.impl.AbstractPerceive;
 
-public class SimpleAgent extends AbstractAgent {
+public class SimpleAgent extends AbstractAgent<SimpleContext, SimpleActionable> implements SetupAgent {
 
 	// no coords but in an other example yeah !
 	public SimpleAgent(String uid) {
 		super(uid);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	protected Perceive make_perception() {
-		return new AbstractPerceive(getUid()) {
+	protected Perceive<SimpleContext> make_perception() {
+		return new AbstractPerceive<SimpleContext>(getUid()) {
 			
 			@Override
 			public void perceive() {
-				System.out.println(getUid() + " : " + ((SimpleContext)this.requires().context()).getStatus());
+				System.out.println(getUid() + " : " + this.requires().context().getStatus());
 			}
 		};
 	}
 	
 	@Override
-	protected Decide make_decision() {
-		return new AbstractDecide() {
+	protected Decide<SimpleActionable> make_decision() {
+		return new AbstractDecide<SimpleActionable>() {
 			
 			@Override
 			public void decide() {
@@ -43,13 +45,13 @@ public class SimpleAgent extends AbstractAgent {
 				//Deciding.....
 				
 				//Now I'll act !
-				((SimpleActionable)this.requires().action()).toggleIsSimple();
+				this.requires().action().toggleIsSimple();
 			}
 		};
 	}
 	
 	@Override
-	protected Act make_action() {
+	protected Act<SimpleActionable> make_action() {
 		return new SimpleAct();
 	}
 	
@@ -75,7 +77,7 @@ public class SimpleAgent extends AbstractAgent {
 		};
 	}
 	
-	public class SimpleAct extends AbstractAct implements SimpleActionable {
+	public class SimpleAct extends AbstractAct<SimpleActionable> implements SimpleActionable {
 
 		@Override
 		public void toggleIsSimple() {
@@ -86,6 +88,15 @@ public class SimpleAgent extends AbstractAgent {
 		private SimpleActionable getActionable() { 
 			return ((SimpleActionable)this.requires().env());
 		}
+
+		@Override
+		protected SimpleActionable make_action() {
+			return this;
+		}
 	}
 	
+	@Override
+	protected SetupAgent make_setup() {
+		return this;
+	}
 }

@@ -3,7 +3,7 @@ package framework.impl;
 import framework.Callable;
 import framework.Perceive;
 
-public abstract class  AbstractPerceive extends Perceive implements Callable{
+public abstract class  AbstractPerceive<Context> extends Perceive<Context> implements Callable{
 	private String uid;
 	
 	public AbstractPerceive(String agentUid) {

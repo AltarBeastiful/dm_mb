@@ -1,27 +1,28 @@
 namespace framework {
 	
-	component Agent{		
+	component Agent[Context,Actionable]{		
 		requires tick : Tick
 		
-		requires context : IContext
-		requires actionable : IActionable
+		requires context : Context
+		requires actionable : Actionable
 		
+		provides setup : SetupAgent
 		provides actObservable : ActObservable = action.observable
 		
-		part perception : Perceive {
+		part perception : Perceive[Context] {
 			bind context to context
 			bind memory to knowledge.memory
 			bind decision to decision.decision
 			bind tick to tick
 		}
 		
-		part decision : Decide {
+		part decision : Decide[Actionable] {
 			bind memory to knowledge.memory
 			bind action to action.action
 			bind perception to perception.perception
 		}
 		
-		part action : Act { 
+		part action : Act [Actionable]{ 
 			bind env to actionable			
 		}
 		
@@ -30,8 +31,8 @@ namespace framework {
 		provides charge :  IWorkLoad	
 	}
 	
-	component Perceive {
-		requires context : IContext
+	component Perceive[Context] {
+		requires context : Context
 		requires memory : IMemory
 		
 		requires tick : Tick
@@ -40,17 +41,17 @@ namespace framework {
 		requires decision : Callable
 	}
 	
-	component Decide {
+	component Decide [Actionable]{
 		requires memory : IMemory
-		requires action : IActionable
+		requires action : Actionable
 		
 		requires perception : Callable		
 		provides decision : Callable	
 	}
 	
-	component Act {
-		requires env : IActionable
-		provides action : IActionable
+	component Act [Actionable]{
+		requires env : Actionable
+		provides action : Actionable
 		
 		provides observable : ActObservable
 	}

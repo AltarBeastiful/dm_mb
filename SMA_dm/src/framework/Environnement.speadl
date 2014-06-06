@@ -1,10 +1,8 @@
-import framework.IActionable
-
 namespace framework {
 
-component Environnement{
-	provides context : IContext
-	provides actionable : IActionable
+component Environnement[Context,Actionable]{
+	provides context : Context
+	provides actionable : Actionable
 }
 
 }

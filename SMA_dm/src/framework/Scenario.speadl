@@ -1,7 +1,3 @@
-
-
-import java.awt.event.ActionListener
-
 namespace framework {
 
 component Clock {
@@ -16,39 +12,40 @@ component Gui {
 	provides actListener : ActListener
 }
 
- ecosystem AgentJoining {
+ ecosystem AgentJoining[Context,Actionable] {
  	requires universalTick : Tick
- 	requires universalContext : IContext
-	requires universalActionable : IActionable
+ 	requires universalContext : Context
+	requires universalActionable : Actionable
  	species JoiningEntity {
  		provides joinTick : Tick
- 		provides joinContext : IContext
- 		provides joinActionable : IActionable
+ 		provides joinContext : Context
+ 		provides joinActionable : Actionable
  	}	 	
  } 
  
- ecosystem Scenario {
+ ecosystem Scenario [Context,Actionable]{
  	provides setup : SetupScenario
  	provides speed : SpeedRegulation = clock.speed
  	 	 	
 	part clock : Clock
-	part env : Environnement
+	part env : Environnement[Context,Actionable]
 	part gui : Gui {
 		bind actObservable to observeAllAgents
 	}
 	
  	species AgentSpecies(id : String) {
  		use je : rjc.JoiningEntity
- 		part agent : Agent {
+ 		part agent : Agent[Context,Actionable] {
  			bind tick to je.joinTick
  			bind context to je.joinContext
  			bind actionable to je.joinActionable
  		}
  		provides actObservable : ActObservable = agent.actObservable
  		provides charge : IWorkLoad = agent.charge	
+ 		provides setupAgent : SetupAgent = agent.setup
  	}
  	
- 	part rjc : AgentJoining {
+ 	part rjc : AgentJoining[Context,Actionable] {
  		bind universalTick to clock.tick
  		bind universalContext to env.context
  		bind universalActionable to env.actionable

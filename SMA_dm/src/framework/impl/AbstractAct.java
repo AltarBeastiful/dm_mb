@@ -6,10 +6,9 @@ import java.util.List;
 import framework.Act;
 import framework.ActListener;
 import framework.ActObservable;
-import framework.IActionable;
 
 
-public abstract class AbstractAct extends Act  implements IActionable, ActObservable{
+public abstract class AbstractAct<Actionable> extends Act<Actionable>  implements ActObservable{
 	private List<ActListener> listeners;
 	
 	public AbstractAct(){
@@ -17,9 +16,7 @@ public abstract class AbstractAct extends Act  implements IActionable, ActObserv
 	}
 	
 	@Override
-	protected IActionable make_action() {
-		return this;
-	}
+	protected abstract Actionable make_action();
 
 	@Override
 	public void removeActListener(ActListener ac) {

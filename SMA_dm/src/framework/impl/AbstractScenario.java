@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import simpleScenario.SimpleAgent;
 import framework.ActListener;
 import framework.ActObservable;
 import framework.Agent;
@@ -14,11 +13,10 @@ import framework.Environnement;
 import framework.Gui;
 import framework.Scenario;
 import framework.SetupScenario;
-import framework.Scenario.AgentSpecies;
 
-public abstract  class AbstractScenario extends Scenario implements SetupScenario, ActObservable {
+public abstract  class AbstractScenario<Context, Actionable> extends Scenario<Context, Actionable> implements SetupScenario, ActObservable {
 	private List<ActListener> listeners;
-	private List<Scenario.AgentSpecies.Component> agents;
+	protected List<Scenario.AgentSpecies.Component> agents;
 	private int defaultSpeed;
 	
 	public AbstractScenario(int defaultSpeed) {
@@ -41,17 +39,17 @@ public abstract  class AbstractScenario extends Scenario implements SetupScenari
 	}
 
 	@Override
-	protected abstract Environnement make_env();
+	protected abstract Environnement<Context, Actionable> make_env();
 	
-	protected abstract Agent make_agent(String id);
+	protected abstract Agent<Context, Actionable> make_agent(String id);
 
 	@Override
-	protected AgentSpecies make_AgentSpecies(String id) {
+	protected AgentSpecies<Context, Actionable> make_AgentSpecies(String id) {
 		final String uid = id;
-		return new AgentSpecies() {
+		return new AgentSpecies<Context, Actionable>() {
 
 			@Override
-			protected Agent make_agent() {
+			protected Agent<Context, Actionable> make_agent() {
 				return AbstractScenario.this.make_agent(uid);
 			}
 			
@@ -59,8 +57,8 @@ public abstract  class AbstractScenario extends Scenario implements SetupScenari
 	}
 
 	@Override
-	protected AgentJoining make_rjc() {
-		return new AgentJoining_impl();
+	protected AgentJoining<Context, Actionable> make_rjc() {
+		return new AgentJoining_impl<Context, Actionable>();
 	}
 
 	@Override

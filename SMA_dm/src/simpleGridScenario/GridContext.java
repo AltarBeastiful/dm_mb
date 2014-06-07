@@ -1,8 +1,7 @@
 package simpleGridScenario;
 
 import simpleGridScenario.GridEnvironnement.TileStatus;
-import framework.IContext;
 
-public interface GridContext extends IContext {
-	public TileStatus getStatus(int x, int y) throws Exception;
+public interface GridContext {
+	public TileStatus getStatus(int x, int y) throws Exception;//dynamic cat in simple agent?
 }

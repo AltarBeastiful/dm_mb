@@ -4,12 +4,9 @@ import java.awt.Point;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import framework.Agent;
 import framework.Environnement;
-import framework.IActionable;
-import framework.IContext;
 
-public class GridEnvironnement extends Environnement implements GridContext, ActionableGrid {
+public class GridEnvironnement extends Environnement<GridContext, ActionableGrid> implements GridContext, ActionableGrid {
 	private int width;
 	private int height;
 	private Map<Point, TileStatus> grid;
@@ -34,12 +31,12 @@ public class GridEnvironnement extends Environnement implements GridContext, Act
 	}
 
 	@Override
-	protected IContext make_context() {
+	protected GridContext make_context() {
 		return this;
 	}
 
 	@Override
-	protected IActionable make_actionable() {
+	protected ActionableGrid make_actionable() {
 		return this;
 	}
 
@@ -93,8 +90,14 @@ public class GridEnvironnement extends Environnement implements GridContext, Act
 	}
 	
 	private boolean isInGrid(Point p) {
-		//TODO : check also using 
+		//TODO : check also using width and height
 		return (grid.get(p) != null);
 	}
+
+//	@SuppressWarnings("unchecked")
+//	@Override
+//	public GridContext getContext() {
+//		return this;
+//	}
 
 }

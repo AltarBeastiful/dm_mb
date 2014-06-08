@@ -1,5 +1,6 @@
 package simpleGridScenario;
 
+import simpleGridScenario.GridEnvironnement.TileStatus;
 import framework.Agent;
 import framework.Environnement;
 import framework.Gui;
@@ -24,9 +25,9 @@ public class GridScenario extends AbstractScenario<GridContext, ActionableGrid> 
 	public static void main(String[] args) {
 		Scenario.Component<GridContext, ActionableGrid> scenario = new GridScenario(100, 200).newComponent();
 		
-		scenario.setup().addAgent();
-		scenario.setup().addAgent();
-		//TODO : add agent with parameters
+		scenario.setup().addAgent(3,4);
+		scenario.setup().addAgent(1,2);
+		scenario.setup().addAgent(5,6);
 		
 		scenario.speed().play();
 	}
@@ -41,16 +42,32 @@ public class GridScenario extends AbstractScenario<GridContext, ActionableGrid> 
 		return new GridAgent(id);
 	}
 	
+	@Override
+	public void addAgent(Object...parameters) {
+		int x = (Integer)parameters[0];
+		int y = (Integer)parameters[1];
+		try {
+			if (parts().env().context().getStatus(x, y).equals(TileStatus.FREE)) {
+				Scenario.AgentSpecies.Component<GridContext, ActionableGrid> a = newAgentSpecies(randomUUID());
+				updateListeners(a);
+				agents.add(a);
+				a.setupAgent().initAgent(parameters[0], parameters[1]);
+				parts().env().actionable().setStatus(x, y, TileStatus.AGENT);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	@Override
 	protected AgentSpecies<GridContext, ActionableGrid> make_AgentSpecies(String id) {
-		// TODO Auto-generated method stub
+		final String uid = id;
 		return new AgentSpecies<GridContext, ActionableGrid>() {
 			
 			@Override
 			protected Agent<GridContext, ActionableGrid> make_agent() {
-				// TODO Auto-generated method stub
-				return null;
+				return new GridAgent(uid);
 			}
 		};
 	}

@@ -99,4 +99,9 @@ public class SimpleAgent extends AbstractAgent<SimpleContext, SimpleActionable> 
 	protected SetupAgent make_setup() {
 		return this;
 	}
+
+	@Override
+	public void initAgent(Object... objects) {
+		//So simple init
+	}
 }

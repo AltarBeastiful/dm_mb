@@ -16,11 +16,11 @@ import framework.SetupScenario;
 
 public abstract  class AbstractScenario<Context, Actionable> extends Scenario<Context, Actionable> implements SetupScenario, ActObservable {
 	private List<ActListener> listeners;
-	protected List<Scenario.AgentSpecies.Component> agents;
+	protected List<Scenario.AgentSpecies.Component<Context, Actionable>> agents;
 	private int defaultSpeed;
 	
 	public AbstractScenario(int defaultSpeed) {
-		agents = new ArrayList<Scenario.AgentSpecies.Component>();
+		agents = new ArrayList<Scenario.AgentSpecies.Component<Context, Actionable>>();
 		listeners = new ArrayList<ActListener>();
 		
 		this.defaultSpeed = defaultSpeed;
@@ -87,14 +87,14 @@ public abstract  class AbstractScenario<Context, Actionable> extends Scenario<Co
 	public void removeActListener(ActListener ac) {
 		listeners.remove(ac);
 		
-		for (AgentSpecies.Component species : agents ) {
+		for (Scenario.AgentSpecies.Component<Context, Actionable> species : agents ) {
 			species.actObservable().removeActListener(ac);;
 		}
 	}
 	
 	@Override
 	public void fireAct() {
-		for (AgentSpecies.Component species : agents ) {
+		for (Scenario.AgentSpecies.Component<Context, Actionable> species : agents ) {
 			species.actObservable().fireAct();
 		}
 	}
@@ -104,12 +104,12 @@ public abstract  class AbstractScenario<Context, Actionable> extends Scenario<Co
 		if (!listeners.contains(ac))
 			listeners.add(ac);
 		
-		for (AgentSpecies.Component species : agents ) {
+		for (Scenario.AgentSpecies.Component<Context, Actionable> species : agents ) {
 			species.actObservable().addActListener(ac);
 		}
 	}
 	
-	protected void updateListeners(Scenario.AgentSpecies.Component a) {
+	protected void updateListeners(Scenario.AgentSpecies.Component<Context, Actionable> a) {
 		for (ActListener ac : listeners) {
 			a.actObservable().addActListener(ac);
 		}

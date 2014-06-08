@@ -41,7 +41,6 @@ component Gui {
  			bind actionable to je.joinActionable
  		}
  		provides actObservable : ActObservable = agent.actObservable
- 		provides charge : IWorkLoad = agent.charge	
  		provides setupAgent : SetupAgent = agent.setup
  	}
  	

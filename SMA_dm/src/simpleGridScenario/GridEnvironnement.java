@@ -94,10 +94,4 @@ public class GridEnvironnement extends Environnement<GridContext, ActionableGrid
 		return (grid.get(p) != null);
 	}
 
-//	@SuppressWarnings("unchecked")
-//	@Override
-//	public GridContext getContext() {
-//		return this;
-//	}
-
 }

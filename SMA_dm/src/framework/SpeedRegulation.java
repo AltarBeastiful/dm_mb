@@ -7,5 +7,4 @@ public interface SpeedRegulation {
 	public void step();
 	public void setSpeed(int speed);
 	public void setFullSpeed(boolean isfullSpeed);
-
 }

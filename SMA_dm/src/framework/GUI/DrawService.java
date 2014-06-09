@@ -24,14 +24,14 @@ public class DrawService extends JPanel {
 	private int virtualGridWidth = 100;
 	private int virtualGridHeight = 100;
 	UIFrame ds;
-	
+
 	private HashMap<Point, Color> currentState;
 
 	public DrawService(int w, int h) {
 		ds = new UIFrame(this);
-		virtualGridHeight=h;
-		virtualGridWidth=w;
-		currentState=new HashMap<Point, Color>();
+		virtualGridHeight = h;
+		virtualGridWidth = w;
+		currentState = new HashMap<Point, Color>();
 	}
 
 	private void drawGrid(Graphics g) {
@@ -49,35 +49,40 @@ public class DrawService extends JPanel {
 		heightRatio = Math.round(h / virtualGridHeight);
 	}
 
-	//Callable only in paintComponent(), or if you know what your doing
-	private void printShape(Shape s,Graphics g) {
+	// Callable only in paintComponent(), or if you know what your doing
+	private void printShape(Shape s, Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.draw(s);
 		g2d.fill(s);
 	}
-	
-	//Callable only in paintComponent(), or if you know what your doing
+
+	// Callable only in paintComponent(), or if you know what your doing
 	private void drawAt(int x, int y, Color c, Graphics g) {
 		g.setColor(c);
 		Rectangle r = new Rectangle(x * widthRatio, y * heightRatio,
 				widthRatio, heightRatio);
-		printShape(r,g);
+		printShape(r, g);
 	}
-	
-	
-	//Use this method to store a point to draw.
-	public void drawAt(int x, int y, Color c){
+
+	// Use this method to store a point to draw.
+	public void drawAt(int x, int y, Color c) {
 		currentState.put(new Point(x, y), c);
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		drawGrid(g);
 		for (Entry<Point, Color> entry : currentState.entrySet()) {
-			Point p= entry.getKey();
-			drawAt(p.x, p.y, entry.getValue(),g);
+			Point p = entry.getKey();
+			drawAt(p.x, p.y, entry.getValue(), g);
 		}
+		drawGrid(g);
+	}
+
+	@Override
+	public void paint(Graphics arg0) {
+		super.paint(arg0);
+		drawGrid(arg0);
 	}
 
 }

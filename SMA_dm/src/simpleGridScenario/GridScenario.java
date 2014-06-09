@@ -5,9 +5,10 @@ import framework.Agent;
 import framework.Environnement;
 import framework.Gui;
 import framework.Scenario;
+import framework.SetupScenario;
 import framework.impl.AbstractScenario;
 
-public class GridScenario extends AbstractScenario<GridContext, ActionableGrid> {
+public class GridScenario extends AbstractScenario<GridContext, ActionableGrid, SetupScenario> {
 	private int width, height;
 	
 	public GridScenario(int width, int height) {
@@ -24,7 +25,7 @@ public class GridScenario extends AbstractScenario<GridContext, ActionableGrid> 
 	
 	public static void main(String[] args) {
 
-		Scenario.Component<GridContext, ActionableGrid> scenario = new GridScenario(100, 200).newComponent();
+		Scenario.Component<GridContext, ActionableGrid, SetupScenario> scenario = new GridScenario(15, 20).newComponent();
 		scenario.setup().redirectAgentLogToConsole(true);
 		scenario.setup().redirectAgentLogToFile("boua");
 
@@ -53,13 +54,12 @@ public class GridScenario extends AbstractScenario<GridContext, ActionableGrid> 
 	}
 	
 	@Override
-	public Scenario.AgentSpecies.Component<GridContext, ActionableGrid> addAgent(Object...parameters) {
+	public Scenario.AgentSpecies.Component<GridContext, ActionableGrid, SetupScenario> addAgent(Object...parameters) {
 		int x = (Integer)parameters[0];
 		int y = (Integer)parameters[1];
 		try {
 			if (parts().env().context().getStatus(x, y).equals(TileStatus.FREE)) {
-				//TODO : Move those 3 lines in super.addAgent() 
-				Scenario.AgentSpecies.Component<GridContext, ActionableGrid> a = super.addAgent();
+				Scenario.AgentSpecies.Component<GridContext, ActionableGrid, SetupScenario> a = super.addAgent();
 				a.setupAgent().initAgent(parameters[0], parameters[1]);
 				parts().env().actionable().setStatus(x, y, TileStatus.AGENT);
 				
@@ -71,5 +71,4 @@ public class GridScenario extends AbstractScenario<GridContext, ActionableGrid> 
 		}
 		return null;
 	}
-
 }

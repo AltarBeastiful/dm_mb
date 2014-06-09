@@ -11,7 +11,13 @@ public class WharehouseGui extends AbstractGui<WharehouseContext> {
 	public WharehouseGui(int width, int height) {
 		this.width = width;
 		this.height = height;
-		gui = new DrawService(width, height);
+	}
+	
+	@Override
+	protected void start() {
+		// TODO Auto-generated method stub
+		super.start();
+		gui = new DrawService(width, height, this.requires().speed());
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import framework.Environnement;
 
+//TODO : handle synchronization 
 public class GridEnvironnement extends Environnement<GridContext, ActionableGrid> implements GridContext, ActionableGrid {
 	private int width;
 	private int height;
@@ -19,7 +20,11 @@ public class GridEnvironnement extends Environnement<GridContext, ActionableGrid
 		
 		this.grid = new LinkedHashMap<Point, TileStatus>();
 		
-		//add Free on all tiles
+		for (int i = 0; i <= width; i++) {
+			for (int j = 0; j <= height; j++) {
+				this.grid.put(new Point(i, j), TileStatus.FREE);
+			}
+		}
 	}
 	
 	public int getWidth() {
@@ -41,7 +46,7 @@ public class GridEnvironnement extends Environnement<GridContext, ActionableGrid
 	}
 
 	@Override
-	public boolean moveAgent(int x, int y, int newX, int newY) throws Exception {
+	public boolean moveAgent(int x, int y, int newX, int newY) throws Exception, OutOfBondsException {
 		
 		Point startPoint = new Point(x, y);
 		Point arrivalPoint = new Point(newX, newY);
@@ -49,10 +54,10 @@ public class GridEnvironnement extends Environnement<GridContext, ActionableGrid
 		TileStatus originStatus = grid.get(new Point(x,y));
 		
 		if (arrivalStatus == null) {
-			throw new Exception("Undefined cooridnates out of bondaries, shouldn't be in this state") ;
+			throw new OutOfBondsException("Undefined cooridnates out of bondaries, shouldn't be in this state") ;
 		}
 		
-		if (originStatus.equals(TileStatus.AGENT)) {
+		if (!originStatus.equals(TileStatus.AGENT)) {
 			throw new Exception("There is not robot to move on the given coordinates, you liar !") ;
 		}
 		
@@ -79,19 +84,32 @@ public class GridEnvironnement extends Environnement<GridContext, ActionableGrid
 	}
 
 	@Override
-	public boolean setStatus(int x, int y, TileStatus s) throws Exception {
+	public boolean setStatus(int x, int y, TileStatus s) {
 		Point p = new Point(x, y);
 		
 		if (!isInGrid(p)) {
-			throw new Exception("Undefined cooridnates out of bondaries, shouldn't be in this state");
+			//throw new Exception("Undefined cooridnates out of bondaries, shouldn't be in this state");
+			return false;
 		}
 		
-		return grid.put(p, s).equals(s);
+		grid.put(p, s);
+		
+		return true;
 	}
 	
 	private boolean isInGrid(Point p) {
 		//TODO : check also using width and height
-		return (grid.get(p) != null);
+		return (p.x <= width && p.y <= height && grid.get(p) != null);
 	}
 
+	public class OutOfBondsException extends Exception {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2731382167002030627L;
+		
+		public OutOfBondsException(String mess){
+			super(mess);
+		}
+	}
 }

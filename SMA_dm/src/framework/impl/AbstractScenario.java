@@ -67,10 +67,12 @@ public abstract  class AbstractScenario<Context, Actionable> extends Scenario<Co
 	}
 
 	@Override
-	public void addAgent(Object...parameters) {
+	public Scenario.AgentSpecies.Component<Context, Actionable> addAgent(Object...parameters) {
 		Scenario.AgentSpecies.Component<Context, Actionable> a = newAgentSpecies(randomUUID());
 		updateListeners(a);
 		agents.add(a);
+		
+		return a;
 	}
 	
 	@Override

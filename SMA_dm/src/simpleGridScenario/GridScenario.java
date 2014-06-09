@@ -43,33 +43,23 @@ public class GridScenario extends AbstractScenario<GridContext, ActionableGrid> 
 	}
 	
 	@Override
-	public void addAgent(Object...parameters) {
+	public Scenario.AgentSpecies.Component<GridContext, ActionableGrid> addAgent(Object...parameters) {
 		int x = (Integer)parameters[0];
 		int y = (Integer)parameters[1];
 		try {
 			if (parts().env().context().getStatus(x, y).equals(TileStatus.FREE)) {
-				Scenario.AgentSpecies.Component<GridContext, ActionableGrid> a = newAgentSpecies(randomUUID());
-				updateListeners(a);
-				agents.add(a);
+				//TODO : Move those 3 lines in super.addAgent() 
+				Scenario.AgentSpecies.Component<GridContext, ActionableGrid> a = super.addAgent();
 				a.setupAgent().initAgent(parameters[0], parameters[1]);
 				parts().env().actionable().setStatus(x, y, TileStatus.AGENT);
+				
+				return a;
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	@Override
-	protected AgentSpecies<GridContext, ActionableGrid> make_AgentSpecies(String id) {
-		final String uid = id;
-		return new AgentSpecies<GridContext, ActionableGrid>() {
-			
-			@Override
-			protected Agent<GridContext, ActionableGrid> make_agent() {
-				return new GridAgent(uid);
-			}
-		};
+		return null;
 	}
 
 }

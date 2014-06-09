@@ -1,7 +1,9 @@
 package simpleGridScenario;
 
 import java.awt.Point;
+import java.util.Random;
 
+import simpleGridScenario.GridEnvironnement.OutOfBondsException;
 import simpleGridScenario.GridEnvironnement.TileStatus;
 import framework.Act;
 import framework.Decide;
@@ -27,7 +29,7 @@ public class GridAgent extends AbstractAgent<GridContext, ActionableGrid> implem
 			
 			@Override
 			public void perceive() {
-				
+				System.out.println("My position is : " + currentPosition.toString());
 			}
 		};
 	}
@@ -38,7 +40,28 @@ public class GridAgent extends AbstractAgent<GridContext, ActionableGrid> implem
 			
 			@Override
 			public void decide() {
+				Point newPos = new Point(currentPosition);
 				
+				if(((new Random().nextInt()) & 1) == 0 ) {
+					//even
+					newPos.x++;
+				}else{
+					//odd
+					newPos.y++;
+				}
+				
+				try {
+					if(requires().action().moveAgent(currentPosition.x, currentPosition.y, newPos.x, newPos.y)) {
+						currentPosition = newPos;
+						System.out.println("I Moved ");
+					}else {
+						System.out.println("I stuck");
+					}
+				} catch (OutOfBondsException e) {
+					System.out.println("Tried to walk out of bound");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		};
 	}

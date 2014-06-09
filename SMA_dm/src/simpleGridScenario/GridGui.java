@@ -1,21 +1,33 @@
 package simpleGridScenario;
 
-import framework.GUI.PrintService;
+import framework.GUI.DrawService;
 import framework.impl.AbstractGui;
 
-public class GridGui extends AbstractGui{
-	PrintService gui;
+public class GridGui extends AbstractGui<GridContext>{
+	int width;
+	int height;
+	DrawService gui;
 	
 	public GridGui(int width, int height) {
-		gui = new PrintService(width, height);
+		this.width = width;
+		this.height = height;
+		gui = new DrawService(width, height);
 	}
 
 	@Override
 	public void actFired() {
-		// TODO Redraw interface
-		
-		gui.drawGrid();
-		
+		// TODO for each tile is here
+		for(int i = 0; i < width; i++){
+			for(int j = 0; j < height; j++){
+				try {
+					gui.drawAt(i, j, this.requires().env().getStatusColor(i, j));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		gui.repaint();
 	}
 	
 }

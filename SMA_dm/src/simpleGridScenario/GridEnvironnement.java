@@ -1,5 +1,6 @@
 package simpleGridScenario;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -20,8 +21,9 @@ public class GridEnvironnement extends Environnement<GridContext, ActionableGrid
 		
 		this.grid = new LinkedHashMap<Point, TileStatus>();
 		
-		for (int i = 0; i <= width; i++) {
-			for (int j = 0; j <= height; j++) {
+		// TODO for each tile is here
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
 				this.grid.put(new Point(i, j), TileStatus.FREE);
 			}
 		}
@@ -97,9 +99,21 @@ public class GridEnvironnement extends Environnement<GridContext, ActionableGrid
 		return true;
 	}
 	
+	public Color getStatusColor(int x, int y) throws Exception {
+		switch (getStatus(x, y)) {
+		case FREE:
+			return Color.WHITE;
+		case AGENT:
+			return Color.BLUE;
+		case OBSTACLE:
+			return Color.black;
+		default:
+			return Color.gray;
+		}
+	}
+	
 	private boolean isInGrid(Point p) {
-		//TODO : check also using width and height
-		return (p.x <= width && p.y <= height && grid.get(p) != null);
+		return (p.x < width && p.y < height && grid.get(p) != null);
 	}
 
 	public class OutOfBondsException extends Exception {

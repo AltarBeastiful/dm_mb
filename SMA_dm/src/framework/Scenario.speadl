@@ -6,8 +6,9 @@ component Clock {
 	provides speed : SpeedRegulation
 }
 
-component Gui {
+component Gui[Context] {
 	requires actObservable : ActObservable
+	requires env : Context
 	
 	provides actListener : ActListener
 }
@@ -29,8 +30,9 @@ component Gui {
  	 	 	
 	part clock : Clock
 	part env : Environnement[Context,Actionable]
-	part gui : Gui {
+	part gui : Gui[Context] {
 		bind actObservable to observeAllAgents
+		bind env to env.context
 	}
 	
  	species AgentSpecies(id : String) {

@@ -40,6 +40,7 @@ public class RemoteControlPanel extends JPanel {
 		this.add(pause);
 		this.add(speed);
 		this.add(validateSpeed);
+		
 		addListener();
 	}
 

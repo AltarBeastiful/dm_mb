@@ -171,4 +171,21 @@ public abstract  class AbstractScenario<Context, Actionable, Setup extends Setup
 			}
 		}
 	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		// TODO Auto-generated method stub
+		super.finalize();
+		
+		for(BufferedWriter w : agentLogs) {
+			try {
+				w.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
 }

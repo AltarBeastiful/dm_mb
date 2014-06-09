@@ -22,6 +22,7 @@ public class UIFrame extends JFrame {
 		this.setSize(800, 700);
 		this.setTitle("Agents UI");
 		getContentPane().add(panel);
+		RemoteControlPanel control = new RemoteControlPanel();
 	}
 
 

@@ -11,7 +11,7 @@ public class GridScenario extends AbstractScenario<GridContext, ActionableGrid> 
 	private int width, height;
 	
 	public GridScenario(int width, int height) {
-		super(5000);
+		super(100);
 		
 		this.width = width;
 		this.height = height;
@@ -23,13 +23,21 @@ public class GridScenario extends AbstractScenario<GridContext, ActionableGrid> 
 	}
 	
 	public static void main(String[] args) {
+
 		Scenario.Component<GridContext, ActionableGrid> scenario = new GridScenario(100, 200).newComponent();
 		scenario.setup().redirectAgentLogToConsole(true);
 		scenario.setup().redirectAgentLogToFile("boua");
+
+
 		
-		scenario.setup().addAgent(3,4);
+		scenario.setup().addAgent(7,4);
 		scenario.setup().addAgent(1,2);
-		scenario.setup().addAgent(5,6);
+		scenario.setup().addAgent(17,4);
+		scenario.setup().addAgent(11,2);
+		scenario.setup().addAgent(12,4);
+		scenario.setup().addAgent(12,2);
+		scenario.setup().addAgent(4,4);
+		scenario.setup().addAgent(5,2);
 		
 		scenario.speed().play();
 	}

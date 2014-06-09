@@ -24,8 +24,8 @@ component Gui[Context] {
  	}	 	
  } 
  
- ecosystem Scenario [Context,Actionable]{
- 	provides setup : SetupScenario
+ ecosystem Scenario [Context,Actionable,Setup]{
+ 	provides setup : Setup
  	provides speed : SpeedRegulation = clock.speed
  	 	 	
 	part clock : Clock

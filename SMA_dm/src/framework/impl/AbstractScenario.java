@@ -21,15 +21,15 @@ import framework.LogObserver;
 import framework.Scenario;
 import framework.SetupScenario;
 
-public abstract  class AbstractScenario<Context, Actionable> extends Scenario<Context, Actionable> implements SetupScenario, ActObservable, LogObserver {
+public abstract  class AbstractScenario<Context, Actionable, Setup extends SetupScenario> extends Scenario<Context, Actionable, Setup> implements SetupScenario, ActObservable, LogObserver {
 	private List<ActListener> listeners;
-	protected List<Scenario.AgentSpecies.Component<Context, Actionable>> agents;
+	protected List<Scenario.AgentSpecies.Component<Context, Actionable, Setup>> agents;
 	private int defaultSpeed;
 	private boolean agentLogToConsole;
 	private List<BufferedWriter> agentLogs;
 	
 	public AbstractScenario(int defaultSpeed) {
-		agents = new ArrayList<Scenario.AgentSpecies.Component<Context, Actionable>>();
+		agents = new ArrayList<Scenario.AgentSpecies.Component<Context, Actionable, Setup>>();
 		listeners = new ArrayList<ActListener>();
 		agentLogs = new ArrayList<BufferedWriter>();
 		
@@ -56,9 +56,9 @@ public abstract  class AbstractScenario<Context, Actionable> extends Scenario<Co
 	protected abstract Agent<Context, Actionable> make_agent(String id);
 
 	@Override
-	protected AgentSpecies<Context, Actionable> make_AgentSpecies(String id) {
+	protected AgentSpecies<Context, Actionable, Setup> make_AgentSpecies(String id) {
 		final String uid = id;
-		return new AgentSpecies<Context, Actionable>() {
+		return new AgentSpecies<Context, Actionable, Setup>() {
 
 			@Override
 			protected Agent<Context, Actionable> make_agent() {
@@ -74,20 +74,20 @@ public abstract  class AbstractScenario<Context, Actionable> extends Scenario<Co
 	}
 
 	@Override
-	protected SetupScenario make_setup() {
-		return this;
+	protected Setup make_setup() {
+		return (Setup) this;
 	}
 
 	@Override
-	public Scenario.AgentSpecies.Component<Context, Actionable> addAgent(Object...parameters) {
-		Scenario.AgentSpecies.Component<Context, Actionable> a = newAgentSpecies(randomUUID());
+	public Scenario.AgentSpecies.Component<Context, Actionable, Setup> addAgent(Object...parameters) {
+		Scenario.AgentSpecies.Component<Context, Actionable, Setup> a = newAgentSpecies(randomUUID());
 		updateListeners(a);
 		agents.add(a);
 		a.log().registerToLog(this);
 		
 		return a;
 	}
-	
+
 	@Override
 	public String randomUUID() {
 		return UUID.randomUUID().toString();
@@ -102,14 +102,14 @@ public abstract  class AbstractScenario<Context, Actionable> extends Scenario<Co
 	public void removeActListener(ActListener ac) {
 		listeners.remove(ac);
 		
-		for (Scenario.AgentSpecies.Component<Context, Actionable> species : agents ) {
+		for (Scenario.AgentSpecies.Component<Context, Actionable, Setup> species : agents ) {
 			species.actObservable().removeActListener(ac);;
 		}
 	}
 	
 	@Override
 	public void fireAct() {
-		for (Scenario.AgentSpecies.Component<Context, Actionable> species : agents ) {
+		for (Scenario.AgentSpecies.Component<Context, Actionable, Setup> species : agents ) {
 			species.actObservable().fireAct();
 		}
 	}
@@ -119,12 +119,12 @@ public abstract  class AbstractScenario<Context, Actionable> extends Scenario<Co
 		if (!listeners.contains(ac))
 			listeners.add(ac);
 		
-		for (Scenario.AgentSpecies.Component<Context, Actionable> species : agents ) {
+		for (Scenario.AgentSpecies.Component<Context, Actionable, Setup> species : agents ) {
 			species.actObservable().addActListener(ac);
 		}
 	}
 	
-	protected void updateListeners(Scenario.AgentSpecies.Component<Context, Actionable> a) {
+	protected void updateListeners(Scenario.AgentSpecies.Component<Context, Actionable, Setup> a) {
 		for (ActListener ac : listeners) {
 			a.actObservable().addActListener(ac);
 		}

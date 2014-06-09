@@ -1,15 +1,14 @@
-package simpleGridScenario;
+package robotAndBoxScenario;
 
 import java.awt.Point;
 import java.util.Random;
 
+import robotAndBoxScenario.WarehouseEnvironnement.TileStatus;
 import simpleGridScenario.GridEnvironnement.OutOfBondsException;
-import simpleGridScenario.GridEnvironnement.TileStatus;
 import framework.Act;
 import framework.Decide;
 import framework.IMemory;
 import framework.Knowledge;
-import framework.Logger;
 import framework.Perceive;
 import framework.SetupAgent;
 import framework.impl.AbstractAct;
@@ -17,16 +16,16 @@ import framework.impl.AbstractAgent;
 import framework.impl.AbstractDecide;
 import framework.impl.AbstractPerceive;
 
-public class GridAgent extends AbstractAgent<GridContext, ActionableGrid> implements SetupAgent {
+public class Robot extends AbstractAgent<WharehouseContext, ActionableWharehouse> implements SetupAgent{
 	private Point currentPosition;
 
-	public GridAgent(String uid) {
+	public Robot(String uid) {
 		super(uid);
 	}
-	
+
 	@Override
-	protected Perceive<GridContext> make_perception() {
-		return new AbstractPerceive<GridContext>(getUid()) {
+	protected Perceive<WharehouseContext> make_perception() {
+		return new AbstractPerceive<WharehouseContext>(getUid()) {
 			
 			@Override
 			public void perceive() {
@@ -36,8 +35,8 @@ public class GridAgent extends AbstractAgent<GridContext, ActionableGrid> implem
 	}
 
 	@Override
-	protected Decide<ActionableGrid> make_decision() {
-		return new AbstractDecide<ActionableGrid>() {
+	protected Decide<ActionableWharehouse> make_decision() {
+		return new AbstractDecide<ActionableWharehouse>() {
 			
 			@Override
 			public void decide() {
@@ -80,11 +79,23 @@ public class GridAgent extends AbstractAgent<GridContext, ActionableGrid> implem
 	}
 
 	@Override
-	protected Act<ActionableGrid> make_action() {
-		return new GridAct();
+	protected Act<ActionableWharehouse> make_action() {
+		return new WharehouseAct();
+	}
+
+	@Override
+	protected SetupAgent make_setup() {
+		return this;
+	}
+
+	@Override
+	public void initAgent(Object... objects) {
+		if(objects.length >= 2 && objects[0].getClass().equals(Integer.class) && objects[1].getClass().equals(Integer.class)) {
+			currentPosition = new Point((Integer)objects[0], (Integer)objects[1]);
+		}
 	}
 	
-	public class GridAct extends AbstractAct<ActionableGrid> implements ActionableGrid {
+	public class WharehouseAct extends AbstractAct<ActionableWharehouse> implements ActionableWharehouse {
 
 		@Override
 		public boolean moveAgent(int x, int y, int newX, int newY)
@@ -103,22 +114,24 @@ public class GridAgent extends AbstractAgent<GridContext, ActionableGrid> implem
 		
 
 		@Override
-		protected ActionableGrid make_action() {
+		protected ActionableWharehouse make_action() {
 			return this;
 		}
-		
-	}
 
-	@Override
-	protected SetupAgent make_setup() {
-		return this;
-	}
-
-	@Override
-	public void initAgent(Object... objects) {
-		if(objects.length >= 2 && objects[0].getClass().equals(Integer.class) && objects[1].getClass().equals(Integer.class)) {
-			currentPosition = new Point((Integer)objects[0], (Integer)objects[1]);
+		@Override
+		public boolean addTunnel(int y) {
+			boolean result = this.requires().env().addTunnel(y);
+			this.fireAct();
+			return result;
 		}
+
+		@Override
+		public boolean removeTunnel(int y) {
+			boolean result = this.requires().env().removeTunnel(y);
+			this.fireAct();
+			return result;
+		}
+		
 	}
 
 }

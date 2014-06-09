@@ -8,10 +8,11 @@ import framework.Knowledge;
 import framework.Logger;
 import framework.Perceive;
 import framework.SetupAgent;
+import framework.Suicide;
 
-public abstract class AbstractAgent<Context, Actionable> extends Agent<Context, Actionable>{
+public abstract class AbstractAgent<Context, Actionable> extends Agent<Context, Actionable> implements Suicide{
 	private String uid;
-	private Thread t;
+	private volatile Thread t;
 	
 	public AbstractAgent(String uid) {
 		this.uid = uid;
@@ -47,6 +48,11 @@ public abstract class AbstractAgent<Context, Actionable> extends Agent<Context, 
 	}
 
 	@Override
+	protected Suicide make_life() {
+		return this;
+	}
+
+	@Override
 	protected abstract SetupAgent make_setup();
 
 	public String getUid() {
@@ -57,4 +63,11 @@ public abstract class AbstractAgent<Context, Actionable> extends Agent<Context, 
 	protected Logger make_logger() {
 		return new LoggerImpl();
 	}
+
+	@Override
+	public void suicide() {
+		t.interrupt();
+		t = null;
+	}
+	
 }

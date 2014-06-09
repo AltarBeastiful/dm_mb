@@ -1,3 +1,5 @@
+import framework.Suicide
+
 namespace framework {
 	
 	component Agent[Context,Actionable]{		
@@ -8,8 +10,10 @@ namespace framework {
 		
 		provides setup : SetupAgent
 		provides actObservable : ActObservable = action.observable
+		provides life : Suicide
 		
 		provides log : LogQueryService = logger.log
+		
 		
 		part perception : Perceive[Context] {
 			bind context to context

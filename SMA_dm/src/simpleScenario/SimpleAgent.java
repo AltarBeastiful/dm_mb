@@ -25,7 +25,7 @@ public class SimpleAgent extends AbstractAgent<SimpleContext, SimpleActionable> 
 			
 			@Override
 			public void perceive() {
-				System.out.println(getUid() + " : " + this.requires().context().getStatus());
+				requires().logger().log(this.requires().context().getStatus());
 			}
 		};
 	}

@@ -9,22 +9,29 @@ namespace framework {
 		provides setup : SetupAgent
 		provides actObservable : ActObservable = action.observable
 		
+		provides log : LogQueryService = logger.log
+		
 		part perception : Perceive[Context] {
 			bind context to context
 			bind memory to knowledge.memory
 			bind decision to decision.decision
 			bind tick to tick
+			bind logger to logger.logger
 		}
 		
 		part decision : Decide[Actionable] {
 			bind memory to knowledge.memory
 			bind action to action.action
 			bind perception to perception.perception
+			bind logger to logger.logger
 		}
 		
 		part action : Act [Actionable]{ 
-			bind env to actionable			
+			bind env to actionable	
+			bind logger to logger.logger		
 		}
+		
+		part logger : Logger
 		
 		part knowledge : Knowledge
 	}
@@ -37,6 +44,8 @@ namespace framework {
 		
 		provides perception : Callable
 		requires decision : Callable
+		
+		requires logger : LoggerService
 	}
 	
 	component Decide [Actionable]{
@@ -44,7 +53,9 @@ namespace framework {
 		requires action : Actionable
 		
 		requires perception : Callable		
-		provides decision : Callable	
+		provides decision : Callable
+		
+		requires logger : LoggerService	
 	}
 	
 	component Act [Actionable]{
@@ -52,6 +63,8 @@ namespace framework {
 		provides action : Actionable
 		
 		provides observable : ActObservable
+		
+		requires logger : LoggerService
 	}
 	
 	component Knowledge {

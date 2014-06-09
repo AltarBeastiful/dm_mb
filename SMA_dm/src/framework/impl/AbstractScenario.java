@@ -1,6 +1,12 @@
 package framework.impl;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,19 +17,25 @@ import framework.AgentJoining;
 import framework.Clock;
 import framework.Environnement;
 import framework.Gui;
+import framework.LogObserver;
 import framework.Scenario;
 import framework.SetupScenario;
 
-public abstract  class AbstractScenario<Context, Actionable> extends Scenario<Context, Actionable> implements SetupScenario, ActObservable {
+public abstract  class AbstractScenario<Context, Actionable> extends Scenario<Context, Actionable> implements SetupScenario, ActObservable, LogObserver {
 	private List<ActListener> listeners;
 	protected List<Scenario.AgentSpecies.Component<Context, Actionable>> agents;
 	private int defaultSpeed;
+	private boolean agentLogToConsole;
+	private List<BufferedWriter> agentLogs;
 	
 	public AbstractScenario(int defaultSpeed) {
 		agents = new ArrayList<Scenario.AgentSpecies.Component<Context, Actionable>>();
 		listeners = new ArrayList<ActListener>();
+		agentLogs = new ArrayList<BufferedWriter>();
 		
 		this.defaultSpeed = defaultSpeed;
+		
+		this.agentLogToConsole = false;
 	}
 	
 	@Override
@@ -71,6 +83,7 @@ public abstract  class AbstractScenario<Context, Actionable> extends Scenario<Co
 		Scenario.AgentSpecies.Component<Context, Actionable> a = newAgentSpecies(randomUUID());
 		updateListeners(a);
 		agents.add(a);
+		a.log().registerToLog(this);
 		
 		return a;
 	}
@@ -118,6 +131,44 @@ public abstract  class AbstractScenario<Context, Actionable> extends Scenario<Co
 	}
 
 	@Override
-	protected abstract Gui make_gui();
+	protected abstract Gui<Context> make_gui();
 
+
+	@Override
+	public void redirectAgentLogToConsole(boolean isTrue) {
+		this.agentLogToConsole = isTrue;
+	}
+
+	@Override
+	public void redirectAgentLogToFile(String file) {
+		BufferedWriter writer = null;
+		
+        try {
+        	String timeLog = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+            File logFile = new File(file + timeLog);
+            System.out.println(logFile.getCanonicalPath());
+            
+            writer = new BufferedWriter(new FileWriter(logFile));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        agentLogs.add(writer);
+	}
+	
+	@Override
+	public void logFired(String log) {
+		if(agentLogToConsole){
+			System.out.println(log);
+		}
+		
+		for(BufferedWriter w : agentLogs) {
+			try {
+				w.write(log);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }

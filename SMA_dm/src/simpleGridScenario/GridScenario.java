@@ -24,6 +24,8 @@ public class GridScenario extends AbstractScenario<GridContext, ActionableGrid> 
 	
 	public static void main(String[] args) {
 		Scenario.Component<GridContext, ActionableGrid> scenario = new GridScenario(100, 200).newComponent();
+		scenario.setup().redirectAgentLogToConsole(true);
+		scenario.setup().redirectAgentLogToFile("boua");
 		
 		scenario.setup().addAgent(3,4);
 		scenario.setup().addAgent(1,2);
@@ -33,7 +35,7 @@ public class GridScenario extends AbstractScenario<GridContext, ActionableGrid> 
 	}
 
 	@Override
-	protected Gui make_gui() {
+	protected Gui<GridContext> make_gui() {
 		return new GridGui(width, height);
 	}
 

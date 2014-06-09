@@ -44,6 +44,7 @@ component Gui[Context] {
  		}
  		provides actObservable : ActObservable = agent.actObservable
  		provides setupAgent : SetupAgent = agent.setup
+ 		provides log : LogQueryService = agent.log
  	}
  	
  	part rjc : AgentJoining[Context,Actionable] {

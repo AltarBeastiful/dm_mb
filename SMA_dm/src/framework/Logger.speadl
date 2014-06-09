@@ -1,0 +1,8 @@
+namespace framework {
+	
+component Logger {
+	provides logger : LoggerService
+	provides log : LogQueryService
+}
+
+}

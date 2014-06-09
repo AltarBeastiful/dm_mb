@@ -5,6 +5,7 @@ import framework.Agent;
 import framework.Decide;
 import framework.IMemory;
 import framework.Knowledge;
+import framework.Logger;
 import framework.Perceive;
 import framework.SetupAgent;
 
@@ -50,5 +51,10 @@ public abstract class AbstractAgent<Context, Actionable> extends Agent<Context, 
 
 	public String getUid() {
 		return this.uid;
+	}
+
+	@Override
+	protected Logger make_logger() {
+		return new LoggerImpl();
 	}
 }

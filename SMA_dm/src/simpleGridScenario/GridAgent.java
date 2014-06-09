@@ -9,6 +9,7 @@ import framework.Act;
 import framework.Decide;
 import framework.IMemory;
 import framework.Knowledge;
+import framework.Logger;
 import framework.Perceive;
 import framework.SetupAgent;
 import framework.impl.AbstractAct;
@@ -29,7 +30,7 @@ public class GridAgent extends AbstractAgent<GridContext, ActionableGrid> implem
 			
 			@Override
 			public void perceive() {
-				System.out.println("My position is : " + currentPosition.toString());
+				requires().logger().log("My position is : " + currentPosition.toString());
 			}
 		};
 	}
@@ -53,12 +54,12 @@ public class GridAgent extends AbstractAgent<GridContext, ActionableGrid> implem
 				try {
 					if(requires().action().moveAgent(currentPosition.x, currentPosition.y, newPos.x, newPos.y)) {
 						currentPosition = newPos;
-						System.out.println("I Moved ");
+						requires().logger().log("I Moved ");
 					}else {
-						System.out.println("I stuck");
+						requires().logger().log("I stuck");
 					}
 				} catch (OutOfBondsException e) {
-					System.out.println("Tried to walk out of bound");
+					requires().logger().log("Tried to walk out of bound");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

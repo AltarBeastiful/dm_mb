@@ -4,9 +4,9 @@ import framework.Act;
 import framework.Agent;
 import framework.Decide;
 import framework.IMemory;
-import framework.IWorkLoad;
 import framework.Knowledge;
 import framework.Perceive;
+import framework.SetupAgent;
 
 public abstract class AbstractAgent<Context, Actionable> extends Agent<Context, Actionable>{
 	private String uid;
@@ -22,12 +22,6 @@ public abstract class AbstractAgent<Context, Actionable> extends Agent<Context, 
 		super.start();
 		t = new Thread(this.parts().perception().perception());
 		t.start();
-	}
-
-	@Override
-	protected IWorkLoad make_charge() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -50,6 +44,9 @@ public abstract class AbstractAgent<Context, Actionable> extends Agent<Context, 
 			}
 		};
 	}
+
+	@Override
+	protected abstract SetupAgent make_setup();
 
 	public String getUid() {
 		return this.uid;

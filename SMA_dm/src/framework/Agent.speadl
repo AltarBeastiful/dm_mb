@@ -27,8 +27,6 @@ namespace framework {
 		}
 		
 		part knowledge : Knowledge
-
-		provides charge :  IWorkLoad	
 	}
 	
 	component Perceive[Context] {

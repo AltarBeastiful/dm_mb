@@ -1,15 +1,14 @@
 package simpleGridScenario;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import framework.Agent;
 import framework.Environnement;
-import framework.IActionable;
-import framework.IContext;
 
-public class GridEnvironnement extends Environnement implements GridContext, ActionableGrid {
+//TODO : handle synchronization 
+public class GridEnvironnement extends Environnement<GridContext, ActionableGrid> implements GridContext, ActionableGrid {
 	private int width;
 	private int height;
 	private Map<Point, TileStatus> grid;
@@ -22,7 +21,12 @@ public class GridEnvironnement extends Environnement implements GridContext, Act
 		
 		this.grid = new LinkedHashMap<Point, TileStatus>();
 		
-		//add Free on all tiles
+		// TODO for each tile is here
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				this.grid.put(new Point(i, j), TileStatus.FREE);
+			}
+		}
 	}
 	
 	public int getWidth() {
@@ -34,17 +38,17 @@ public class GridEnvironnement extends Environnement implements GridContext, Act
 	}
 
 	@Override
-	protected IContext make_context() {
+	protected GridContext make_context() {
 		return this;
 	}
 
 	@Override
-	protected IActionable make_actionable() {
+	protected ActionableGrid make_actionable() {
 		return this;
 	}
 
 	@Override
-	public boolean moveAgent(int x, int y, int newX, int newY) throws Exception {
+	public boolean moveAgent(int x, int y, int newX, int newY) throws Exception, OutOfBondsException {
 		
 		Point startPoint = new Point(x, y);
 		Point arrivalPoint = new Point(newX, newY);
@@ -52,10 +56,10 @@ public class GridEnvironnement extends Environnement implements GridContext, Act
 		TileStatus originStatus = grid.get(new Point(x,y));
 		
 		if (arrivalStatus == null) {
-			throw new Exception("Undefined cooridnates out of bondaries, shouldn't be in this state") ;
+			throw new OutOfBondsException("Undefined cooridnates out of bondaries, shouldn't be in this state") ;
 		}
 		
-		if (originStatus.equals(TileStatus.AGENT)) {
+		if (!originStatus.equals(TileStatus.AGENT)) {
 			throw new Exception("There is not robot to move on the given coordinates, you liar !") ;
 		}
 		
@@ -82,19 +86,44 @@ public class GridEnvironnement extends Environnement implements GridContext, Act
 	}
 
 	@Override
-	public boolean setStatus(int x, int y, TileStatus s) throws Exception {
+	public boolean setStatus(int x, int y, TileStatus s) {
 		Point p = new Point(x, y);
 		
 		if (!isInGrid(p)) {
-			throw new Exception("Undefined cooridnates out of bondaries, shouldn't be in this state");
+			//throw new Exception("Undefined cooridnates out of bondaries, shouldn't be in this state");
+			return false;
 		}
 		
-		return grid.put(p, s).equals(s);
+		grid.put(p, s);
+		
+		return true;
+	}
+	
+	public Color getStatusColor(int x, int y) throws Exception {
+		switch (getStatus(x, y)) {
+		case FREE:
+			return Color.WHITE;
+		case AGENT:
+			return Color.BLUE;
+		case OBSTACLE:
+			return Color.black;
+		default:
+			return Color.gray;
+		}
 	}
 	
 	private boolean isInGrid(Point p) {
-		//TODO : check also using 
-		return (grid.get(p) != null);
+		return (p.x < width && p.y < height && grid.get(p) != null);
 	}
 
+	public class OutOfBondsException extends Exception {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2731382167002030627L;
+		
+		public OutOfBondsException(String mess){
+			super(mess);
+		}
+	}
 }

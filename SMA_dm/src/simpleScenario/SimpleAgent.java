@@ -3,7 +3,6 @@ package simpleScenario;
 import framework.Act;
 import framework.Decide;
 import framework.IMemory;
-import framework.IWorkLoad;
 import framework.Knowledge;
 import framework.Perceive;
 import framework.SetupAgent;
@@ -70,13 +69,6 @@ public class SimpleAgent extends AbstractAgent<SimpleContext, SimpleActionable> 
 		};
 	}
 	
-	@Override
-	protected IWorkLoad make_charge() {
-		// TODO Auto-generated method stub
-		return new IWorkLoad() {
-		};
-	}
-	
 	public class SimpleAct extends AbstractAct<SimpleActionable> implements SimpleActionable {
 
 		@Override
@@ -98,5 +90,10 @@ public class SimpleAgent extends AbstractAgent<SimpleContext, SimpleActionable> 
 	@Override
 	protected SetupAgent make_setup() {
 		return this;
+	}
+
+	@Override
+	public void initAgent(Object... objects) {
+		//So simple init
 	}
 }

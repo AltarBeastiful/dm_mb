@@ -1,8 +1,10 @@
 package simpleGridScenario;
 
-import simpleGridScenario.GridEnvironnement.TileStatus;
-import framework.IContext;
+import java.awt.Color;
 
-public interface GridContext extends IContext {
+import simpleGridScenario.GridEnvironnement.TileStatus;
+
+public interface GridContext {
 	public TileStatus getStatus(int x, int y) throws Exception;
+	public Color getStatusColor(int x, int y) throws Exception;
 }

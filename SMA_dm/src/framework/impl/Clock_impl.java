@@ -62,7 +62,9 @@ public class Clock_impl extends Clock implements Tick, SpeedRegulation, Runnable
 	@Override
 	public void setSpeed(int speed) {
 		currentSpeed = speed;
-		//TODO : Actually chance speed of tickthread + make test for it
+		tickthread.cancel(false);
+		play();
+		//TODO : make test for setspeed
 	}
 
 	@Override

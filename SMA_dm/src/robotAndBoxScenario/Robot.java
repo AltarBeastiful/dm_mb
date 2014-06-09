@@ -53,14 +53,13 @@ public class Robot extends AbstractAgent<WharehouseContext, ActionableWharehouse
 				try {
 					if(requires().action().moveAgent(currentPosition.x, currentPosition.y, newPos.x, newPos.y)) {
 						currentPosition = newPos;
-						requires().logger().log("I Moved ");
+						requires().logger().log("I Moved");
 					}else {
 						requires().logger().log("I stuck");
 					}
 				} catch (OutOfBondsException e) {
 					requires().logger().log("Tried to walk out of bound");
 				} catch (Exception e) {
-					e.printStackTrace();
 				}
 			}
 		};
@@ -99,7 +98,7 @@ public class Robot extends AbstractAgent<WharehouseContext, ActionableWharehouse
 
 		@Override
 		public boolean moveAgent(int x, int y, int newX, int newY)
-				throws Exception {
+				throws OutOfBondsException, Exception {
 			boolean result = this.requires().env().moveAgent(x, y, newX, newY);
 			this.fireAct();
 			return result;

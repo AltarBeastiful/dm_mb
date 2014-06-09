@@ -12,7 +12,7 @@ public class WarehouseScenario extends AbstractScenario<WharehouseContext, Actio
 	private int width, height;
 	
 	public WarehouseScenario(int width, int height) {
-		super(2000);
+		super(200);
 		
 		this.width = width;
 		this.height = height;
@@ -23,23 +23,34 @@ public class WarehouseScenario extends AbstractScenario<WharehouseContext, Actio
 	}
 	
 	public static void main(String[] args) {
-		Scenario.Component<WharehouseContext, ActionableWharehouse, SetupWarehouse> scenario = new WarehouseScenario(15, 20).newComponent();
+		int width = 50;
+		int height = 70;
+		Scenario.Component<WharehouseContext, ActionableWharehouse, SetupWarehouse> scenario = new WarehouseScenario(width, height).newComponent();
 		
 		scenario.setup().redirectAgentLogToConsole(true);
-//		scenario.setup().redirectAgentLogToFile("boua");
+		scenario.setup().redirectAgentLogToFile("boua");
 		
-		scenario.setup().addTunnel(3);
-		scenario.setup().addTunnel(15);
+		scenario.setup().addTunnel(69);
+		scenario.setup().addTunnel(68);
+		scenario.setup().addTunnel(58);
 		
-		scenario.setup().addAgent(7,4);
-		scenario.setup().addAgent(1,2);
-		scenario.setup().addAgent(17,4);
-		scenario.setup().addAgent(11,2);
-		scenario.setup().addAgent(12,4);
-		scenario.setup().addAgent(12,2);
-		scenario.setup().addAgent(4,4);
-		scenario.setup().addAgent(5,2);
+		for(int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				scenario.setup().addAgent(i,j);
+			}
+		}
 		
+		for(int i = 0; i <= 6; i++) {
+			for(int j = 15; j < 25; j++ ) {
+				try {
+					scenario.setup().addBox(i, j);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+
 		scenario.speed().play();
 	}
 
@@ -100,6 +111,10 @@ public class WarehouseScenario extends AbstractScenario<WharehouseContext, Actio
 	
 	@Override
 	public boolean addBox(int x, int y) throws Exception {
-		return this.parts().env().actionable().setStatus(x, y, TileStatus.BOX);
+		if(this.parts().env().context().getStatus(x, y).equals(TileStatus.FREE)) {
+			return this.parts().env().actionable().setStatus(x, y, TileStatus.BOX);
+		}
+		
+		return false;
 	}
 }

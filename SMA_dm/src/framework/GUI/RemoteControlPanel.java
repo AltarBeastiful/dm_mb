@@ -35,7 +35,7 @@ public class RemoteControlPanel extends JPanel {
 		pause = new JButton();
 		pause.setText("Pause");
 		speed = new TextField();
-		speed.setText("3000");
+		speed.setText("200");
 		step = new JButton();
 		step.setText("step");
 		validateSpeed = new JButton();

@@ -4,17 +4,18 @@ import framework.Agent;
 import framework.Environnement;
 import framework.Gui;
 import framework.Scenario;
+import framework.SetupScenario;
 import framework.impl.AbstractGui;
 import framework.impl.AbstractScenario;
 
-public class SimpleScenario extends AbstractScenario<SimpleContext, SimpleActionable> {
+public class SimpleScenario extends AbstractScenario<SimpleContext, SimpleActionable, SetupScenario> {
 	
 	public SimpleScenario() {
 		super(5000);
 	}
 	
 	public static void main(String[] args) {
-		Scenario.Component<SimpleContext, SimpleActionable> scenario = new SimpleScenario().newComponent();
+		Scenario.Component<SimpleContext, SimpleActionable, SetupScenario> scenario = new SimpleScenario().newComponent();
 		
 		scenario.setup().addAgent();
 		scenario.setup().addAgent();

@@ -41,7 +41,7 @@ public class Clock_impl extends Clock implements Tick, SpeedRegulation, Runnable
 
 	@Override
 	public void pause() {
-		//TODO : find better way than cancel. A real oause from current token attribution owuld be cool. ! of deadlock if paused when accessing synchronized data 
+		//TODO : find better way than cancel. A real pause from current token attribution would be cool. ! of deadlock if paused when accessing synchronized data 
 		if(tickthread != null){
 			tickthread.cancel(false);
 		}
@@ -95,7 +95,7 @@ public class Clock_impl extends Clock implements Tick, SpeedRegulation, Runnable
 		}
 		
 		//TODO : token count can change in the meantime, don't use var tokencount for minus. agentToken = monitor?
-		agentToken.put(uid, tokencount - 1);
+		agentToken.put(uid, agentToken.get(uid) - 1);
 	}
 
 	@Override
@@ -107,7 +107,7 @@ public class Clock_impl extends Clock implements Tick, SpeedRegulation, Runnable
 		    
 		    agentToken.put(uid, tokencount + 1);
 		    
-		    if(tokencount == 0 && waitingThreads.containsKey(uid)) {
+		    if( waitingThreads.containsKey(uid)) { //TODO : check if tokencount == 0 ? was bug before
 		    	waitingThreads.get(uid).release();
 		    	waitingThreads.remove(uid);
 		    }

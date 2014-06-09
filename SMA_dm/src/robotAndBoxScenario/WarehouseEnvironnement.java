@@ -71,7 +71,7 @@ public class WarehouseEnvironnement extends Environnement<WharehouseContext, Act
 		boolean isOriginRobot = (originStatus.equals(TileStatus.ROBOT));
 		boolean isOriginRobotCary = originStatus.equals(TileStatus.ROBOT_CARRYING);
 				
-		if (!isOriginRobot) {
+		if (!(isOriginRobot || isOriginRobotCary)) {
 			throw new Exception("There is not robot to move on the given coordinates, you liar !") ;
 		}
 		
@@ -79,14 +79,18 @@ public class WarehouseEnvironnement extends Environnement<WharehouseContext, Act
 			return false;
 		}
 		
-		if(isOriginRobot && isOriginRobotCary && arrivalStatus.equals(TileStatus.BOX))
+		if(isOriginRobotCary && arrivalStatus.equals(TileStatus.BOX)) {
 			return false;
-		
+		}
+			
 		// actually move the robot from env pov
-		if (arrivalStatus.equals(TileStatus.BOX)) 
+		if (arrivalStatus.equals(TileStatus.BOX)) {
 			grid.put(arrivalPoint, TileStatus.ROBOT_CARRYING);
-		else // free tile !
-			grid.put(arrivalPoint, TileStatus.ROBOT);
+		}
+		else{
+			// free tile !
+			grid.put(arrivalPoint, originStatus);
+		}
 		
 		grid.put(startPoint, TileStatus.FREE);
 		
@@ -162,7 +166,6 @@ public class WarehouseEnvironnement extends Environnement<WharehouseContext, Act
 					e.printStackTrace();
 					return false;
 				}
-//			}
 		}
 		
 		return true;

@@ -12,7 +12,7 @@ public class GridScenario extends AbstractScenario<GridContext, ActionableGrid, 
 	private int width, height;
 	
 	public GridScenario(int width, int height) {
-		super(100);
+		super(1000);
 		
 		this.width = width;
 		this.height = height;

@@ -1,5 +1,6 @@
 package simpleGridScenario;
 
+import framework.SpeedRegulation;
 import framework.GUI.DrawService;
 import framework.impl.AbstractGui;
 
@@ -11,7 +12,13 @@ public class GridGui extends AbstractGui<GridContext>{
 	public GridGui(int width, int height) {
 		this.width = width;
 		this.height = height;
-		gui = new DrawService(width, height);
+	}
+	
+	@Override
+	protected void start() {
+		// TODO Auto-generated method stub
+		super.start();
+		gui = new DrawService(width, height, this.requires().speed());
 	}
 
 	@Override
@@ -29,5 +36,4 @@ public class GridGui extends AbstractGui<GridContext>{
 		}
 		gui.repaint();
 	}
-	
 }

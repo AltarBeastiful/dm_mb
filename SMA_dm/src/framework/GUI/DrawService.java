@@ -1,18 +1,17 @@
 package framework.GUI;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
-import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.JPanel;
-import javax.swing.plaf.basic.BasicScrollPaneUI.HSBChangeListener;
+
+import framework.SpeedRegulation;
 
 public class DrawService extends JPanel {
 
@@ -24,12 +23,13 @@ public class DrawService extends JPanel {
 	private int heightRatio;
 	private int virtualGridWidth;
 	private int virtualGridHeight;
-	UIFrame ds;
+	private UIFrame ds;
 
 	private ConcurrentHashMap<Point, Color> currentState;
 
-	public DrawService(int w, int h) {
+	public DrawService(int w, int h, SpeedRegulation speedRegulation) {
 		ds = new UIFrame(this);
+		RemoteControlPanel control = new RemoteControlPanel(speedRegulation);
 		virtualGridHeight = h;
 		virtualGridWidth = w;
 		currentState = new ConcurrentHashMap<Point, Color>();
@@ -83,10 +83,6 @@ public class DrawService extends JPanel {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-//		for (Entry<Point, Color> entry : currentState.entrySet()) {
-//			Point p = entry.getKey();
-//			drawAt(p.x, p.y, entry.getValue(), g);
-//		}
 		drawGrid(g);
 	}
 }
